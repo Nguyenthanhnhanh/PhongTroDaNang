@@ -1,0 +1,463 @@
+[{
+  "_id": {
+    "$oid": "64632a06f445bd5dd01841c3"
+  },
+  "owner": {
+    "$oid": "6463295cf445bd5dd01841ae"
+  },
+  "title": "Nhà phố Đường Ba Tơ 4 tầng hướng đông bắc pháp lý sổ hồng",
+  "address": "132 Ba Tơ Phường 7 Quận 8",
+  "photos": [
+    "uploads\\94a9611147a79c256b9a8da72ec2dbcc.jpg",
+    "uploads\\432eaec7c773d6636380fbfbba145457.jpg",
+    "uploads\\777435864eff77ddab20551256b39251.jpg",
+    "uploads\\63e379de779aa3dd572efc6584fe6096.jpg",
+    "uploads\\ac7da7c871b584742c4e1ac74823663b.jpg",
+    "uploads\\71dc39b76f00f982909c1581d6c9dffa.jpg",
+    "uploads\\7643cda2dca7923f4c4796d2f6539ea6.jpg"
+  ],
+  "description": "Nhà phố có vị trí cách Trường Đại học Sài Gòn khoảng 8.9km, cách Trường Đại học Sư phạm Thể dục Thể thao Thành phố Hồ Chí Minh khoảng 6.9km. Di chuyển tới Sân cầu lông Hưng Phú khoảng 6.4km, California Fitness & Yoga Viet Market khoảng 4.2km. Tọa lạc tại vị trí thuận tiện di chuyển với đầy đủ các tiện ích về y tế, giáo dục và giải trí.",
+  "perks": [
+    "wifi",
+    "tv",
+    "radio"
+  ],
+  "extraInfo": "- Hướng nhà phố: Đông Bắc\n- Tình trạng nội thất: Đầy đủ nội thất\n- Pháp lý: Sổ hồng, đường vào nhà lớn 12m, ô tô di chuyển thoải mái",
+  "price": 100,
+  "status": true,
+  "memberStatus": false,
+  "isExpired": false,
+  "isVip": true,
+  "packageLong": {
+    "longPackageDate": "2023-06-01",
+    "price": 18000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-16",
+    "shortPackageDateEnd": "2023-05-23",
+    "price": 700000
+  },
+  "personBooker": {
+    "$oid": "64622f2f093344a64f680043"
+  },
+  "areas": "33",
+  "numberBed": "4",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684352185403"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684220422093"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684352185409"
+    }
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "646529de0f57fcb632075b61"
+  },
+  "owner": {
+    "$oid": "64632011f445bd5dd0183fe1"
+  },
+  "title": "Nhà phố đường Nguyễn Văn Mai 6 tầng",
+  "address": "35 Nguyễn Văn Mai Phường 8 Quận 3",
+  "photos": [
+    "uploads\\9b2d2d5d438cb09146de40a526c1e609.jpg",
+    "uploads\\cf107556eff7d286bd71a93da1bff6ac.jpg",
+    "uploads\\a721132d733ed0e021b34fefa8dc57f2.jpg",
+    "uploads\\2ca9ceed5fd28192573366796560f1b1.jpg"
+  ],
+  "description": "NHÀ PHỐ NGUYỄN VĂN MAI, QUẬN 3\nDiện tích: 99.8m² ( 5.44m x 19.06m )\nDiện tích sử dụng: 512.58m²\nKết cấu: 6 tầng (trệt +lầu) 9 phòng ngủ 9 phòng tắm\nHướng tây bắc\nĐầy đủ nội thất\nPháp lý: sổ hồng",
+  "perks": [
+    "parking",
+    "wifi",
+    "tv",
+    "radio",
+    "entrance"
+  ],
+  "extraInfo": "Nhà phố có vị trí cách Trường Mầm non Tư Thục 2-9 1.7 km, cách Trường Mầm non 14 1.7 km,...\nTọa lạc tại vị trí thuận tiện di chuyển với đầy đủ các tiện ích về y tế, giáo dục và giải trí: Bệnh viện quận Bình Thạnh 1.3 km, Nhà hàng Ẩm Thực RuNam d'Or 1.7 km, Vincom 3/2 1.8 km",
+  "price": 100,
+  "status": true,
+  "memberStatus": false,
+  "isExpired": false,
+  "isVip": false,
+  "packageLong": {
+    "longPackageDate": "2023-06-01",
+    "price": 85000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-18",
+    "shortPackageDateEnd": "2023-05-30",
+    "price": 3000000
+  },
+  "personBooker": {
+    "$oid": "6463346159706ae836afd61a"
+  },
+  "areas": "99.8",
+  "numberBed": "9",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684351454352"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684351454353"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684352533406"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64652b068ed9ca25bfd5ad73"
+  },
+  "owner": {
+    "$oid": "64632011f445bd5dd0183fe1"
+  },
+  "title": "Nhà phố đường Trần Xuân Soạn 3 tầng",
+  "address": "190 Trần Xuân Soạn Tân Kiểng Quận 7",
+  "photos": [
+    "uploads\\47db0199c26332e65e19d70c8812c56c.jpg",
+    "uploads\\5ecf312f047724abc660cdb19ee777c4.jpg",
+    "uploads\\b9e644eaaccbeaf6f030c9c2a9b9d236.jpg",
+    "uploads\\c16e0cb253db7ffe2d8af602f0f0f385.jpg",
+    "uploads\\5a7a3b86d5dd2cf563796f40db37477c.jpg",
+    "uploads\\05180a2d182f2fa817fd910abf4feebb.jpg"
+  ],
+  "description": "NHÀ PHỐ ĐƯỜNG TRẦN XUÂN SOẠN, QUẬN 7\nDiện tích: 128m² (4m x 32m)\nDiện tích sử dụng: 128m²\nKết cấu: 1 trệt 3 lầu , có sân thượng 2 view sông. Có sân để xe hơi. 4 phòng ngủ 2 phòng tắm\nHướng nhà phố: Bắc\nTình trạng nội thất: Nội thất cơ bản\nPháp lý : Hợp đồng 3 năm",
+  "perks": [
+    "tv",
+    "radio",
+    "entrance"
+  ],
+  "extraInfo": "Lề đường rộng 5m. Giao thông thuận tiện di chuyển qua các quận trung tâm. Tiện ích : Khu dân cư đông đúc, sầm uất. Thích hợp mở văn phòng, công ty,……. Đầy đủ tiện ích xung quanh trong bán kính 500m.",
+  "price": 100,
+  "status": true,
+  "memberStatus": true,
+  "isExpired": false,
+  "isVip": false,
+  "packageLong": {
+    "longPackageDate": "2023-06-01",
+    "price": 50000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-18",
+    "shortPackageDateEnd": "2023-05-31",
+    "price": 1700000
+  },
+  "personBooker": {
+    "$oid": "646335a73bf9274eb01928ab"
+  },
+  "areas": "128",
+  "numberBed": "4",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684351750471"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684351750474"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684401952489"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64652f864bbe0a6d6da79159"
+  },
+  "owner": {
+    "$oid": "6463295cf445bd5dd01841ae"
+  },
+  "title": "Nhà phố đường Nguyễn Văn Thủ rộng thoáng",
+  "address": "123 Nguyễn Văn Thủ Đa Kao Quận 1",
+  "photos": [
+    "uploads\\b7f2283d262879a01f78d182deecee55.jpg"
+  ],
+  "description": "CHO THUÊ NHÀ PHỐ ĐƯỜNG NGUYỄN VĂN THỦ QUẬN 1 \n- Diện tích đất 150m2. (4m x27m) Diện nhà xây dựng nhà ở 120m2.\n- Tổng diện tích sử dụng 700m2. Diện tích sử dụng phòng phía trước: 42m2; phòng phía sau: 31m2.\n- Kết cấu bao gồm 1 trệt,1 lửng, 3 lầu, mỗi lầu gồm 2 phòng lớn, có nhà tắm riêng. Lầu 4: Gồm 2 phòng ngủ, 2 nhà tắm, bếp và phòng khách. Tum với view siêu thoáng và đẹp. \n- Nhà có thang máy 550kg, thang bộ, máy lạnh, hệ thống PCCC, camera an ninh.\n- Nhà mới, cho thuê nguyên căn, kết hợp kinh doanh và ở. Phù hợp văn phòng, thẩm mỹ, nha khoa, showroom.",
+  "perks": [
+    "entrance",
+    "wifi",
+    "parking",
+    "radio",
+    "tv"
+  ],
+  "extraInfo": "Nhà mới, cho thuê nguyên căn, kết hợp kinh doanh và ở. Giá thuê: 7.000$ / cố định 3 năm đầu, 2 năm sau tăng 10%, chỉ cho thuê cả nhà, lắp đặt điều hoà các phòng lầu. Giá thuê 8.000$/ có bảo vệ từ 7h sáng- 7h tối, có lau dọn dẹp cơ bản văn phòng 1 tuần 3 lần. Cọc 6 thanh toán 3-6 tháng, ký hợp đồng ít nhất 3 năm.",
+  "price": 100,
+  "status": true,
+  "memberStatus": false,
+  "isExpired": false,
+  "isVip": false,
+  "packageLong": {
+    "longPackageDate": "2023-07-01",
+    "price": 190000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-30",
+    "shortPackageDateEnd": "2023-06-30",
+    "price": 6500000
+  },
+  "personBooker": {
+    "$oid": "64622f2f093344a64f680043"
+  },
+  "areas": "150",
+  "numberBed": "4",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684352902851"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684352902852"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684739468392"
+    }
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "646530c44bbe0a6d6da791be"
+  },
+  "owner": {
+    "$oid": "64632011f445bd5dd0183fe1"
+  },
+  "title": "Nhà phố Đường Lũy Bán Bích 3 tầng",
+  "address": "77 Lũy Bán Bích Hòa Thạnh Tân Phú",
+  "photos": [
+    "uploads\\c550e5ec52ad84f2ec2f7a7d693fc61b.jpg",
+    "uploads\\a85576f29ef65ad654c1bc3b8cffa7e0.jpg",
+    "uploads\\85cc02d47a3da04d37dae4e56cd88473.jpg",
+    "uploads\\69a29a06d5b2e53635188281d4f27fba.jpg"
+  ],
+  "description": "CHO THUÊ NHÀ PHỐ ĐƯỜNG LŨY BÁN BÍCH, TÂN PHÚ\nDiện tích: 100m² (25m x 4m)\nDiện tích sử dụng: 300m²\nKết cấu: 3 tầng (trệt + lầu), 6 phòng ngủ 5 phòng tắm\nHướng nhà phố: Tây\nTình trạng nội thất: Không có nội thất\nPháp lý: Sổ hồng",
+  "perks": [
+    "entrance"
+  ],
+  "extraInfo": "Nhà phố có vị trí cách Trường Đại học Sài Gòn khoảng 5.6km, cách Trường Đại học Giao thông Vận tải TP.HCM khoảng 9.7km. Di chuyển tới Sân cầu lông Hưng Phú khoảng 4.8km, Elite Fitness Đồng Khởi khoảng 7.5km. Tọa lạc tại vị trí thuận tiện di chuyển với đầy đủ các tiện ích về y tế, giáo dục và giải trí.",
+  "price": 100,
+  "status": true,
+  "memberStatus": false,
+  "isExpired": false,
+  "isVip": true,
+  "packageLong": {
+    "longPackageDate": "2023-07-01",
+    "price": 30000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-18",
+    "shortPackageDateEnd": "2023-06-30",
+    "price": 1200000
+  },
+  "personBooker": {
+    "$oid": "6463346159706ae836afd61a"
+  },
+  "areas": "100",
+  "numberBed": "6",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684353220721"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684353220722"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684353263842"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6465324b4bbe0a6d6da7922e"
+  },
+  "owner": {
+    "$oid": "6463295cf445bd5dd01841ae"
+  },
+  "title": "Nhà phố Quận 2, 1 Trệt 2 lầu,hướng Đông Nam",
+  "address": "Số 10A An Khánh Quận 2",
+  "photos": [
+    "uploads\\89b6df4dd77b1861c106bdbb34340d6c.jpg",
+    "uploads\\90de68672f0da4ba379fbd812a49edc5.jpg",
+    "uploads\\ebd377162ba172bf78342e7e1885b361.jpg",
+    "uploads\\ae89434bfd0d727b5977e8e08b9abd75.jpg"
+  ],
+  "description": "NHÀ PHỐ SỐ 10A, QUẬN 2\nDiện tích: 86m² ( 17.2m x 5m )\nKết cấu: 3 tầng (trệt +lầu) \n5 phòng ngủ 7 phòng tắm\nHướng đông nam\nĐầy đủ nội thất\nPháp lý: hđ mua bán (đang làm sổ) ",
+  "perks": [
+    "parking"
+  ],
+  "extraInfo": "Căn hộ có vị trí cách Trường Mầm non Sakura Montessori Quận 2 - TP HCM 1.4 km, cách Trường Mầm non Thảo Điền 1.6 km,...\nTọa lạc tại vị trí thuận tiện di chuyển với đầy đủ các tiện ích về y tế, giáo dục và giải trí: Bệnh viện Quốc Tế Mỹ - AIH 1.2 km, Ẩm Thực Quê Nhà 0.6 km, Vincom Mega Mall Thảo Điền 1.2 km",
+  "price": 100,
+  "status": true,
+  "memberStatus": true,
+  "isExpired": false,
+  "isVip": true,
+  "packageLong": {
+    "longPackageDate": "2023-06-24",
+    "price": 30000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-21",
+    "shortPackageDateEnd": "2023-06-23",
+    "price": 1500000
+  },
+  "personBooker": {
+    "$oid": "64622f2f093344a64f680043"
+  },
+  "areas": "86",
+  "numberBed": "5",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1684353611711"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684353611711"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684402002169"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64754827c5e6ec7ce1bff560"
+  },
+  "owner": {
+    "$oid": "646b131bf8ae9d827faddc2f"
+  },
+  "title": "Việt Hàn Home",
+  "address": "việt hàn",
+  "photos": [
+    "uploads\\bd6f39c1f06a24e7a1d3139c90dc6e16.png",
+    "uploads\\477343ebfc35e3054f731380ab80d77b.png"
+  ],
+  "description": "sjdakdaskjdaksjdksajdka",
+  "perks": [
+    "wifi"
+  ],
+  "extraInfo": "hfdfksdjfkdsjfksd",
+  "price": 100,
+  "status": true,
+  "memberStatus": false,
+  "isExpired": false,
+  "isVip": false,
+  "packageLong": {
+    "longPackageDate": "2023-05-30",
+    "price": 999999
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-05-30",
+    "shortPackageDateEnd": "2023-05-31",
+    "price": 100000
+  },
+  "personBooker": {
+    "$oid": "646335a73bf9274eb01928ab"
+  },
+  "areas": "22",
+  "numberBed": "1",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1685407783409"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1685407783469"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1685407783469"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647782ff36ea6654acb81dbf"
+  },
+  "owner": {
+    "$oid": "6463295cf445bd5dd01841ae"
+  },
+  "title": "Căn hộ của tôi",
+  "address": "đasadasdsad",
+  "photos": [
+    "uploads\\d5aa9b6256d53acda1b7807ffa2e6559.jpg",
+    "uploads\\290ddd3455107e299ebd017dd714dc22.png",
+    "uploads\\8ec9826f49daf796d7f69e73f49e8d97.jpg"
+  ],
+  "description": "dsadasdasdas",
+  "perks": [
+    "wifi",
+    "parking",
+    "tv",
+    "radio"
+  ],
+  "extraInfo": "dsadsadasdasd",
+  "price": 100,
+  "status": true,
+  "memberStatus": true,
+  "isExpired": false,
+  "isVip": false,
+  "packageLong": {
+    "longPackageDate": "2023-06-01",
+    "price": 10000000
+  },
+  "packageShort": {
+    "shortPackageDateStart": "2023-06-01",
+    "shortPackageDateEnd": "2023-06-21",
+    "price": 100000
+  },
+  "personBooker": {
+    "$oid": "64622f2f093344a64f680043"
+  },
+  "areas": "12",
+  "numberBed": "1",
+  "dateCurrent": {
+    "$date": {
+      "$numberLong": "1685553919674"
+    }
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1685553919678"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1685554001313"
+    }
+  },
+  "__v": 0
+}]

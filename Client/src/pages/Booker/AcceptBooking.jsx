@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import BreakCump from "../../components/BreakCump";
 import { showStatus , showOption,formatCurrentVND } from "../../util/util";
-
+import { Tooltip } from 'antd';
 const AcceptBooking = () => {
 
     const [room, setRoom] = useState([]);
@@ -38,12 +38,14 @@ const AcceptBooking = () => {
     console.log('====================================');
     return (
         <>
-            <div className="p-4">
-            <BreakCump
+            <div className="">
+            {/* <BreakCump
           text={'Quay lại'}
           url={'/accept-booking'}
           />
-                    <h2 className="font-bold text-black-300 px-6 py-4 text-xl">DANH SÁCH CÁC HỢP ĐỒNG ĐỢI DUYỆT</h2>
+                    <h2 className="font-bold text-black-300 px-6 py-4 text-xl">DANH SÁCH CÁC HỢP ĐỒNG ĐỢI DUYỆT</h2> */}
+                    <h2 className="font-bold text-black-300 px-6 pb-1 text-2xl">Danh sách các hợp đồng đợi duyệt</h2>
+                
                 <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-50">
@@ -101,7 +103,9 @@ const AcceptBooking = () => {
                     <td className="px-6 py-4 w-20">{`${showOption(e.typeOption)}/${formatCurrentVND(e.price)}`}</td>
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-4">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded-full" onClick={() => handleRedirect(e._id)}>Xem hợp đồng</button>
+                        <Tooltip title="Xem thông tin chi tiết">
+                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-light py-1 px-3 rounded-full" onClick={() => handleRedirect(e._id)}><i class="fa-solid fa-info fa-xs"></i></button>
+                        </Tooltip>
                       </div>
                     </td>
                   </tr>

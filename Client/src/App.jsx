@@ -17,6 +17,10 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminRoom from './pages/Admin/AdminRoom';
 import AdminUser from './pages/Admin/AdminUser';
 import BookingSuccess from './pages/BookingSuccess';
+import SearchPage from './pages/SearchPage';
+import PriceTablePage from './pages/PriceTablePage';
+import RechargePage from './pages/RechargePage';
+import IndexRechargePage from './pages/IndexRechargePage';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,6 +36,8 @@ import Contact from './pages/Contact';
 import Room from './pages/Room';
 import ContractPage from './pages/ContractPage';
 import ContractOK from './pages/ContractOk';
+import ListInvoice from './pages/Admin/ListInvoice';
+
 
 axios.defaults.baseURL = 'http://127.0.0.1:4000';
 axios.defaults.withCredentials = true;
@@ -57,6 +63,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<IndexPage />} />
+          <Route path="/search/:text" element={<SearchPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<ProfilePage />} />
@@ -72,6 +80,9 @@ function App() {
           <Route path="/booking-success" element={<BookingSuccess />} />          
           <Route path="/contact/:id" element={<Contact />} />          
           <Route path="/compare-room" element={<Room />} />          
+          <Route path="/price-table" element={<PriceTablePage />} />      
+          <Route path="/account/recharge" element={<RechargePage/>} />    
+          <Route path="/recharge" element={<IndexRechargePage/>} />  
         </Route>
         <Route element={<ProtectedRoute user={user?.isAdmin || false} />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
@@ -81,11 +92,12 @@ function App() {
           <Route path="/admin-booker-detail/:id" element={<AdminBookerDetail />} />
           <Route path="/admin-booker" element={<AdminPersonChecker />} />
           <Route path="/admin-room/:id" element={<AdminDetailRoom />} />
+          <Route path="/list-invoice" element={<ListInvoice />} />
         </Route>
         <Route element={<ProtectedRoute user={user?.isBooker || false} />}>
           <Route path="/booker-dashboard" element={<AdminDashboard />} />         
           <Route path="/accept-booking" element={<AcceptBooking />} />         
-          <Route path="/template-booking" element={<TemplateBooking />} />         
+          <Route path="/template-booking/:id" element={<TemplateBooking />} />         
           <Route path="/detail-booking/:id" element={<DetailBooking />} />         
           </Route>
       </Routes>

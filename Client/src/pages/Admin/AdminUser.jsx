@@ -3,14 +3,15 @@ import BreakCump from "../../components/BreakCump"
 import axios from "axios";
 import { formatCurrentVND } from "../../util/util";
 import { toast } from "react-toastify";
-import { Select, Space, Input, Button } from 'antd'; 
+import { Select, Space, Input, Button, Tooltip } from 'antd'; 
 
 const AdminUser = () => {
   const [listUser, setListUser] = useState([]);
   const [coin, setCoin] = useState({
     id: '',
     coin: ''
-  })
+  });
+
   const [beforeCoin, setBeforeCoin] = useState(0);
 
   const changeValueCoin = (type, value) => {
@@ -64,21 +65,44 @@ const AdminUser = () => {
       const res = await axios.put(`/update-coin/${coin.id}`,{balanceCoin: Number(coin.coin) + Number(beforeCoin)});
       if (res.status === 200) {
         await fetching();
-        toast.success('Tăng số coin thành công')
-        setCoin({
-          id: '',
-          coin: ''
-        })
+        const userHere = await axios.get(`/detail-profile/${coin.id}`);
+        if (userHere) {
+          await addInvoice(Number(coin.coin) + Number(beforeCoin),coin.id, userHere.data.name ?? 'Hi' );
+          toast.success('Tăng số coin thành công')
+          setCoin({
+            id: '',
+            coin: ''
+          })
+        }
+       
       }
     } catch (error) {
       
     }
   }
+
+  const addInvoice = (cPrice , idUser, name) => {
+    const bodyy = {
+      name: `Admin nạp tiền cho ${name}`,
+      idUser: idUser,
+      coin: cPrice,
+      note: 'Nộp tiền',
+      status:'Thành công',
+      type:'Admin nạp tiền'
+    };
+    try {
+      const res = axios.post("/invoice", {...bodyy});
+    } catch (error) {
+      
+    }
+  }
     return (
-      <div className="m-3">
-        <BreakCump
+      <div className="">
+        {/* <BreakCump
           text={"Quản Lý Người Dùng"}
-        />
+        /> */}
+
+        <h2 className="font-bold text-black-300 px-6 pb-1 text-2xl">Quản lý người dùng</h2>
        
         <Space className="mt-3 ml-5">
         <Select
@@ -90,7 +114,7 @@ const AdminUser = () => {
 
           />
           <Input value={coin.coin} onChange={(e) => changeValueCoin('coin', e.target.value)}/>
-          <Button onClick={submitCoin}>Submit</Button>
+          <Button onClick={submitCoin}>Nạp tiền</Button>
         </Space>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
         <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -133,7 +157,9 @@ const AdminUser = () => {
                   <td className="px-6 py-4">{`${e?.balanceCoin ? formatCurrentVND(e?.balanceCoin)  : 0}`}</td>
                   <td className="px-6 py-4">
                     <div className="flex justify-center gap-1">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded-full" onClick={() => handleRemoveItem(e._id)}>Xóa</button>
+                      <Tooltip title="Xóa người dùng">
+                        <button className="bg-red-500 hover:bg-red-700 text-white font-light py-1 px-2.5 rounded-full" onClick={() => handleRemoveItem(e._id)}><i class="fa-solid fa-trash fa-xs"></i></button>
+                      </Tooltip>  
                     </div>
                   </td>
                 </tr>

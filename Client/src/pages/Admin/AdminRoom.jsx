@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from 'antd';
 
 const COLORS = ["indigo", "violet", "blue", "indigo", "violet", "blue"];
 
@@ -43,13 +44,15 @@ const AdminRoom = () => {
 
   const handleRemoveProduct = async (id) => {
     const res = await axios.delete(`/remove-room/${id}`);
-    if (res.status === 200) {
+    if (res) {
+      toast.success("Xóa phòng thành công");
       await fetchRoom();
     }
   };
 
   return (
     <>
+      <h2 className="font-bold text-black-300 px-6 pb-1 text-2xl">Quản lý nhà thuê</h2>
       <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
         <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
           <thead className="bg-gray-50">
@@ -60,9 +63,9 @@ const AdminRoom = () => {
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Duyệt Bài
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              {/* <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Trạng Thái
-              </th>
+              </th> */}
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Role
               </th>
@@ -80,11 +83,12 @@ const AdminRoom = () => {
                 <tr
                   className="hover:bg-gray-50 cursor-pointer"
                   key={e._id}
-                  onClick={() => handleRedirect(e._id)}
+                 
                 >
                   <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
                     <div className="relative h-10 w-10">
                       <img
+                         onClick={() => handleRedirect(e._id)}
                         className="h-full w-full rounded-full object-cover object-center"
                         src={`http://localhost:4000/${e.photos[0]}`}
                         alt=""
@@ -109,7 +113,7 @@ const AdminRoom = () => {
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
+                  {/* <td className="px-6 py-4">
                     {e.memberStatus ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
                         <span className="h-1.5 w-1.5 rounded-full bg-green-600"></span>
@@ -121,7 +125,7 @@ const AdminRoom = () => {
                         Chưa Duyệt
                       </span>
                     )}
-                  </td>
+                  </td> */}
                   <td className="px-6 py-4">{e?.owner?.name}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
@@ -138,26 +142,32 @@ const AdminRoom = () => {
                   <td className="px-6 py-4">
                     <div className="flex justify-end gap-4">
                       {!e.status ? (
-                        <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded-full"
-                          onClick={() => handleChangeStatus(e._id,true)}
-                        >
-                          Duyệt
-                        </button>
+                        <Tooltip title="Duyệt tin">
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-light py-1 px-3 rounded-full"
+                            onClick={() => handleChangeStatus(e._id,true)}
+                          >
+                            <i class="fa-solid fa-check-double fa-xs"></i>
+                          </button>
+                        </Tooltip>                        
                       ) : (
-                        <button
-                          className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded-full"
-                          onClick={() => handleChangeStatus(e._id,false)}
-                        >
-                          Ẩn
-                        </button>
+                        <Tooltip title="Ẩn tin">
+                          <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-light py-1 px-2 rounded-full"
+                            onClick={() => handleChangeStatus(e._id,false)}
+                          >
+                            <i class="fa-solid fa-eye-slash fa-xs"></i>
+                          </button>
+                        </Tooltip>                        
                       )}
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded-full"
-                        onClick={() => handleRemoveProduct(e._id)}
-                      >
-                        Xóa
-                      </button>
+                      <Tooltip title="Xóa tin">
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white font-light py-1 px-2.5 rounded-full"
+                          onClick={() => handleRemoveProduct(e._id)}
+                        >
+                          <i class="fa-solid fa-trash fa-xs"></i>
+                        </button>
+                      </Tooltip>                      
                     </div>
                   </td>
                 </tr>

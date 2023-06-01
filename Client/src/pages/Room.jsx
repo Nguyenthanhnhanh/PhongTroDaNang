@@ -53,10 +53,10 @@ const Room = () => {
   console.log('====================================');
 
   return (
-    <>
+    <div className="py-4 px-8 flex flex-col min-h-[75vh] max-w-6xl mx-auto">
       {
         add.length < 1 ? (
-          <div className="mt-8 ">
+          <div className="mt-4">
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -95,39 +95,55 @@ const Room = () => {
             onClick={handleSearch}
             className="text-white absolute right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
           >
-            Search
+            Tìm kiếm
           </button>
         </div>
+        <div class="mt-4 text-base font-semibold md:text-base lg:text-base">Tìm thấy {room.length} kết quả.</div>
+        {room.length == 0 &&
+          <div className="mt-16 md:col-span-2 lg:col-span-3">
+            <div class="text-center text-gray-500 text-xl font-semibold tracking-tight leading-none md:text-2xl lg:text-3xl">Nhập từ khóa để tìm kiếm nhà thuê.</div>
+          </div>
+        }
       </div>
         ) : (
           <div className="mt-8 flex justify-center items-center">
-          <button
-            type="submit"
-                onClick={handleStart}
-            className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-          >
-            Phân tích dữ liệu
-          </button>
+              {
+                add.length === 2 && (
+                  <button
+                    type="submit"
+                        onClick={handleStart}
+                    className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Phân tích dữ liệu
+                  </button>
+                )
+          }
         </div>
         )
       }
-
-      <div className="mt-8 grid col-span-2 gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 cursor-pointer">
+      <div className="mt-8 space-y-8 space-x-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0 md:space-x-0 cursor-pointer">
         {loading === 'start' && room?.map((item) => (
           <div
             className="relative"
             key={item._id}
             onClick={() => bookingRoom(item)}
           >
-            <div className="bg-gray-500 mb-2 rounded-2xl flex">
-              <img
-                className="rounded-2xl object-cover aspect-square"
-                src={"http://localhost:4000/" + item.photos?.[0]}
-                alt=""
-              />
+            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl transition duration-300 ease-in-out hover:scale-105">
+              <img class="rounded-t-lg w-full h-64 bg-cover bg-center" src={"http://localhost:4000/" + item.photos?.[0]} alt="" />
+              <div class="p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="text-2xl font-bold text-gray-900 dark:text-white">{(item.packageLong.price/1000000).toFixed(0)}</span><span class="text-xl font-bold text-gray-900 dark:text-white"> tr/tháng</span>
+                  </div>
+                  <div>
+                    <span class="mr-5 text-l font-semibold text-gray-900 dark:text-white"><i class="fa-solid fa-bed mr-2"></i>{item.numberBed}</span>
+                    <span class="text-l font-semibold text-gray-900 dark:text-white"><i class="fa-solid fa-table-cells mr-2"></i>{item.areas}m<sup>2</sup></span>
+                  </div>
+                </div>
+                <h3 class="truncate text-l font-semibold tracking-tight text-gray-900 dark:text-white">{item.title}</h3>
+                <p class="truncate font-normal text-gray-700 dark:text-gray-400">{item.address}</p>
+              </div>
             </div>
-            <h2 className="font-bold">{item.title}</h2>
-            <h3 className="text-sm text-gray-500">{item.address}</h3>
             {add?.find((i) => i._id === item._id) ? (
               <div
                 className="phu absolute h-full w-full bg-red rounded-md"
@@ -161,63 +177,120 @@ const Room = () => {
 
       {
         loading === 'show' && (
-          <div className="mt-8 flex justify-center items-start">
-        <div className="w-2/4 text-center">
-          <div className="uppercase font-bold border-l p-3">Theo Tiêu Chí</div>
-          <div className="uppercase font-bold border-l p-3">Địa chỉ</div>
-          <div className="uppercase font-bold border-l p-3">
-            Giá Khi Thuê Dài Hạn
-          </div>
-          <div className="uppercase font-bold border-l p-3">
-            Giá Khi Thuê Ngắn Hạn
-          </div>
-          <div className="uppercase font-bold border-l p-3">Lượt tương tác</div>
-          <div className="uppercase font-bold border-l border-b p-3">Hành động</div>
-        </div>
-        <div className="w-2/4 text-center">
-              <div className="uppercase font-bold border-custom p-3">{truncate(add[0].title, 20)}</div>
-              <div className="uppercase border-custom p-3">{ truncate(add[0]?.address, 20)}</div>
-              <div className="uppercase border-custom p-3 font-bold">{ formatCurrentVND(add[0]?.packageLong?.price)}</div>
-              <div className="uppercase border-custom p-3 font-bold">{ formatCurrentVND(add[0]?.packageShort?.price)}</div>
-              <div className="uppercase border-custom p-3">{add[0].reviews.length || 0}</div>
-              <div className="uppercase border-custom border-b p-3">
-              <button
-            type="submit"
-            onClick={() => navigate(`/place/${add[0]._id}`)}
-            className="text-white  right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-1"
-          >
-            Đi đến room
-          </button>
-          </div>
-        </div>
-        <div className="w-2/4 text-center">
-          <div className="uppercase font-bold border-r p-3">{truncate(add[1].title, 20)}</div>
-          <div className="uppercase border-r p-3">{ truncate(add[1]?.address, 20)}</div>
-          <div className="uppercase border-r p-3 font-bold">{ formatCurrentVND(add[1]?.packageLong?.price)}</div>
-          <div className="uppercase border-r p-3 font-bold">{ formatCurrentVND(add[1]?.packageShort?.price)}</div>
-          <div className="uppercase border-r p-3">{add[1].reviews.length || 0}</div>
-              <div className="uppercase border-r border-b p-3">
-              <button
-            type="submit"
-            onClick={() => navigate(`/place/${add[1]._id}`)}
-            className="text-white  right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-1 py-1"
-          >
-            Đi đến room
-          </button>
-          </div>
-        </div>
-      </div>
+          <>
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                          <th scope="col" class="px-6 py-3">
+                          Theo Tiêu Chí
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                          {truncate(add[0].title, 45)}
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                          {truncate(add[1].title, 45)}
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              Địa chỉ
+                          </th>
+                          <td class="px-6 py-4">
+                          { truncate(add[0]?.address, 45)}
+                          </td>
+                          <td class="px-6 py-4">
+                          { truncate(add[1]?.address, 45)}
+                          </td>
+                      </tr>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Giá thuê dài hạn
+                          </th>
+                          <td class="px-6 py-4">
+                          { formatCurrentVND(add[0]?.packageLong?.price)}
+                          </td>
+                          <td class="px-6 py-4">
+                          { formatCurrentVND(add[1]?.packageLong?.price)}
+                          </td>
+                      </tr>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Giá thuê ngắn hạn
+                          </th>
+                          <td class="px-6 py-4">
+                          { formatCurrentVND(add[0]?.packageShort?.price)}
+                          </td>
+                          <td class="px-6 py-4">
+                          { formatCurrentVND(add[1]?.packageShort?.price)}
+                          </td>
+                      </tr>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Diện tích
+                          </th>
+                          <td class="px-6 py-4">
+                          {add[0].areas || 0}
+                          </td>
+                          <td class="px-6 py-4">
+                          {add[1].areas || 0}
+                          </td>
+                      </tr>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Số phòng ngủ
+                          </th>
+                          <td class="px-6 py-4">
+                          {add[0].numberBed || 0}
+                          </td>
+                          <td class="px-6 py-4">
+                          {add[1].numberBed || 0}
+                          </td>
+                      </tr>
+                      <tr class="bg-white border-b border-gray-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Lượt tương tác
+                          </th>
+                          <td class="px-6 py-4">
+                          {add[0].reviews.length || 0}
+                          </td>
+                          <td class="px-6 py-4">
+                          {add[1].reviews.length || 0}
+                          </td>
+                      </tr>
+                      <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <span class="sr-only">Edit</span>                              
+                          </th>
+                          <td class="px-6 py-4">
+                          <button type="submit"
+                onClick={() => navigate(`/place/${add[0]._id}`)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem chi tiết</button>
+                            
+                          </td>
+                          <td class="px-6 py-4">
+                          <button type="submit"
+                onClick={() => navigate(`/place/${add[1]._id}`)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem chi tiết</button>
+                           
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>          
+          </>
+          
         ) 
       }
       {
         loading === 'hide' && ((
           <div className="flex items-center justify-center">
-      <ReactLoading className="text-center" type={'spin'} color={'#f5385d'} height={'20%'} width={'20%'} />
+      <ReactLoading className="text-center" type={'spin'} color={'#f5385d'} height={'10%'} width={'10%'} />
         </div>
           ))
         }
       
-    </>
+    </div>
   );
 };
 

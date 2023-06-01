@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import BreakCump from "../../components/BreakCump";
 import { showStatus , showOption,formatCurrentVND } from "../../util/util";
+import { Tooltip } from 'antd';
 
 const ListAcceptBooking = () => {
 
@@ -36,17 +37,14 @@ const ListAcceptBooking = () => {
         await fetchRoom();
       }
     }
-    console.log('====================================');
-    console.log(room);
-    console.log('====================================');
     return (
         <>
-            <div className="p-4">
-            <BreakCump
+            <div className="">
+            {/* <BreakCump
           text={'Quay lại'}
           url={'/accept-booking'}
-          />
-                    <h2 className="font-bold text-black-300 px-6 py-4 text-xl">DANH SÁCH CÁC HỢP ĐỒNG ĐỢI DUYỆT</h2>
+          /> */}
+                    <h2 className="font-bold text-black-300 px-6 pb-1 text-2xl">Danh sách các hợp đồng</h2>
                 <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-50">
@@ -105,12 +103,34 @@ const ListAcceptBooking = () => {
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-4">
                                 {
-                                    e?.status !== 'review' ? (
-                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded-full" onClick={() => handleChangeStatus(e._id)}>Duyệt hợp đồng</button>
-                                    ) : (
-                                            <p className="text-lime-500">Admin Đã duyệt</p>
+                                    e?.status === 'booking' && (
+                                      <Tooltip title="Duyệt hợp đồng">
+                                        <button
+                                          className="bg-blue-500 hover:bg-blue-700 text-white font-light py-1 px-3 rounded-full"
+                                          onClick={() => handleChangeStatus(e._id)}
+                                        >
+                                          <i class="fa-solid fa-check-double fa-xs"></i>
+                                        </button>
+                                      </Tooltip>
+                                    // <button className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded-full" onClick={() => handleChangeStatus(e._id)}>Duyệt hợp đồng</button>
                                     )
-                      }
+                        }
+                        {
+                          e?.status === 'review' && (
+                            <p className="text-lime-500">Admin đã xác nhận - Đợi Booker</p>
+                          )
+                        }
+{
+                          e?.status === 'cancel' && (
+                            <p className="text-red-700">Hợp đồng đã bị hủy</p>
+                          )
+                        }
+                        {
+                          e?.status === 'done' && (
+                            <p className="text-lime-500">Hợp đồng đã được hoàn thành</p>
+                          )
+                        }
+                        
                       </div>
                     </td>
                   </tr>

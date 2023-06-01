@@ -7,7 +7,7 @@ import { showOption, formatCurrentVND } from "../../util/util";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { formatDate } from "../../util/util";
-
+import { Tooltip } from 'antd';
 const DetailBooking = () => {
   const [detail, setDetail] = useState();
   const { id } = useParams();
@@ -36,20 +36,23 @@ const DetailBooking = () => {
     try {
       const res = await axios.put(`/update-status/${id}`, { status: status });
       if (res.status === 200) {
-        toast.success("Xác nhận hợp đồng thành công");
+        if (status === 'done') {
+          toast.success("Xác nhận hợp đồng thành công");
+        }
+
+        if (status === 'cancel') {
+          toast.success("Hợp đồng đã được hủy");
+        }
         fetchRoom();
       }
     } catch (error) {
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
     }
   };
 
   return (
     <div className="app m-4">
-      <BreakCump text={"Quay lại"} url={"/accept-booking"} />
-      <main className="grid gap-6 my-12 mx-12 px-2 mx-auto">
+      {/* <BreakCump text={"Quay lại"} url={"/accept-booking"} /> */}
+      <main className="grid gap-6 mx-5 mb-4 mx-auto">
         <aside className>
           <div className="block bg-white shadow rounded-lg p-10 flex flex-row justify-center items-center">
             {detail?.status === "review" && (
@@ -60,7 +63,7 @@ const DetailBooking = () => {
               <div className="relative">
                 <img
                   className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4"
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                  src={`http://localhost:4000/`+detail?.place?.owner?.avatar}
                   alt=""
                 />
                 {
@@ -73,21 +76,8 @@ const DetailBooking = () => {
                 }
               </div>
               <p className="font-semibold">{detail?.place?.owner?.email}</p>
-              <div className="text-sm font-bold leading-normal text-gray-400 flex justify-center items-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="mr-1"
-                  width={16}
-                  height={16}
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx={12} cy={10} r={3} />
-                </svg>
+              <div className="text-sm font-bold leading-normal text-gray-600 flex justify-center items-center">
+                <i class="fa-solid fa-user mr-2"></i>
                 Đại diện Bên cho thuê - {detail?.place?.owner?.name}
               </div>
             </div>
@@ -96,7 +86,7 @@ const DetailBooking = () => {
               <div className="relative">
                 <img
                   className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4"
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                  src={`http://localhost:4000/`+detail?.user?.avatar}
                   alt=""
                 />
                 {
@@ -109,22 +99,9 @@ const DetailBooking = () => {
                 }
               </div>
               <p className="font-semibold">{detail?.user?.email}</p>
-              <div className="text-sm font-bold leading-normal text-gray-400 flex justify-center items-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="mr-1"
-                  width={16}
-                  height={16}
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx={12} cy={10} r={3} />
-                </svg>
-                Đại diện bên mua - {detail?.user?.name}
+              <div className="text-sm font-bold leading-normal text-gray-600 flex justify-center items-center">
+                <i class="fa-solid fa-user mr-2"></i>
+                Đại diện bên thuê - {detail?.user?.name}
               </div>
             </div>
           </div>
@@ -132,7 +109,7 @@ const DetailBooking = () => {
         </aside>
       </main>
 
-      <h2 className="font-bold text-black-300 px-6 py-4 text-xl">
+      <h2 className="font-bold text-black-300 px-6 mb-4 text-xl">
         Thông tin chi tiết
       </h2>
       <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -152,7 +129,7 @@ const DetailBooking = () => {
                 Bắt đầu từ ngày
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                Tải file hợp đồng
+                Hành động
               </th>
             </tr>
           </thead>
@@ -189,12 +166,9 @@ const DetailBooking = () => {
                   "Dịch vụ dài hạn nên sẽ bắt đầu từ hôm nay"}
               </td>
               <td className="px-6 py-4">
-                <button
-                  className="round-full bg-black py-2 px-4 color-white"
-                  onClick={() => navigate("/template-booking")}
-                >
-                  Tải về
-                </button>
+                <Tooltip title="Xem thông tin hợp đồng">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-light py-1 px-3 rounded-full" onClick={() => navigate(`/template-booking/${id}`)}><i class="fa-solid fa-info fa-xs"></i></button>
+                </Tooltip>
               </td>
             </tr>
           </tbody>
@@ -212,25 +186,47 @@ const DetailBooking = () => {
       <p className="italic text-red-700 font-small">
         Hợp đồng sau khi hủy sẽ không thể hoàn tác lại nữa
       </p>
-      {detail?.status === "review" ? (
+      {detail?.status === "review" &&(
         <div className="flex justify-center items-center mt-3">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded-full"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full"
             onClick={() => handleBooking("done")}
           >
             Xác nhận hợp đồng
           </button>
         </div>
-      ) : (
-        <div className="flex justify-center items-center mt-3">
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded-full mr-2"
-            onClick={() => handleBooking("cancel")}
-          >
-            Hủy Hợp Đồng
-          </button>
-        </div>
       )}
+
+
+      {
+        detail?.status === "done" && (
+          (
+            <div className="flex justify-center items-center mt-3">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full mr-2"
+                onClick={() => handleBooking("cancel")}
+              >
+                Hủy Hợp Đồng
+              </button>
+            </div>
+          )
+        )
+      }
+
+{
+        detail?.status === "cancel" && (
+          (
+            <div className="flex justify-center items-center mt-3">
+              <button
+                className="bg-amber-500 hover:bg-amber-700 text-white font-semibold py-2 px-4 rounded-full mr-2"
+                onClick={() => handleBooking("done")}
+              >
+                Khôi phục hợp đồng
+              </button>
+            </div>
+          )
+        )
+      }
     </div>
   );
 };
