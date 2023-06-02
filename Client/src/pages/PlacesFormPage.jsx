@@ -5,7 +5,7 @@ import axios from "axios";
 import AccountNav from "../AccountNav";
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Checkbox } from 'antd';
+import { Checkbox } from "antd";
 export default function PlacesFormPage() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
@@ -22,7 +22,7 @@ export default function PlacesFormPage() {
   const [booker, setBooker] = useState("");
   const [listBooker, setListBooker] = useState([]);
   const [hide, setHide] = useState(false);
-  const [areas, setAreas] = useState('');
+  const [areas, setAreas] = useState("");
   const [numberBed, setNumberBed] = useState(1);
   const [listLong, setListLong] = useState({
     longPackageDate: "",
@@ -49,12 +49,12 @@ export default function PlacesFormPage() {
       setHide(data.status);
       setExtraInfo(data.extraInfo);
       setListShort({
-        ...data.packageShort
-      })
+        ...data.packageShort,
+      });
       setListLong({
-        ...data.packageLong
-      })
-      setBooker(data.personBooker)
+        ...data.packageLong,
+      });
+      setBooker(data.personBooker);
       setPrice(data.price);
       setAreas(data.areas);
       setNumberBed(data.numberBed);
@@ -103,19 +103,19 @@ export default function PlacesFormPage() {
       package: [
         {
           longPackageDate: listLong.longPackageDate,
-          price: listLong.price
+          price: listLong.price,
         },
         {
-          shortPackageDateStart: listShort.shortPackageDateStart ,
-      shortPackageDateEnd: listShort.shortPackageDateEnd ,
-      price: listShort.price 
-        }
+          shortPackageDateStart: listShort.shortPackageDateStart,
+          shortPackageDateEnd: listShort.shortPackageDateEnd,
+          price: listShort.price,
+        },
       ],
       personBooker: booker,
       price,
       areas,
       numberBed,
-      status: hide
+      status: hide,
     };
     if (id) {
       // update
@@ -136,16 +136,16 @@ export default function PlacesFormPage() {
   };
 
   const showProfileChecker = (id) => {
-    navigate(`/account/profile/${id}`,{replace: true})
-  }
+    navigate(`/account/profile/${id}`, { replace: true });
+  };
 
   if (redirect) {
     return <Navigate to={"/account/places"} />;
   }
 
   const handleChecker = (id) => {
-    setBooker(id)
-  }
+    setBooker(id);
+  };
 
   return (
     <div>
@@ -153,7 +153,7 @@ export default function PlacesFormPage() {
       <div className="mb-4 px-8 flex flex-col min-h-screen max-w-6xl mx-auto">
         <form onSubmit={savePlace}>
           {preInput(
-            "Tên Căn Hộ",
+            "Tên  Phòng Trọ - Căn Hộ",
             "Tiêu đề cho địa điểm của bạn. nên ngắn gọn và hấp dẫn như trong quảng cáo"
           )}
           <input
@@ -162,7 +162,7 @@ export default function PlacesFormPage() {
             onChange={(ev) => setTitle(ev.target.value)}
             placeholder="title, for example: My lovely apt"
           />
-          {preInput("Địa Chỉ", "Địa Chỉ Chỗ Căn Hộ")}
+          {preInput("Địa Chỉ", "Địa Chỉ Cụ Thể")}
           <input
             type="text"
             value={address}
@@ -304,20 +304,34 @@ export default function PlacesFormPage() {
                     className="block bg-white p-1 rounded-full"
                     to={`/account/profile/${item._id}`}
                   >
-                    <img className="w-16 rounded-full" src={'http://localhost:4000/' +item.avatar} />
+                    <img
+                      className="w-16 rounded-full"
+                      src={"http://localhost:4000/" + item.avatar}
+                    />
                   </Link>
                   {/* Username */}
                   <span className="text-xs text-gray-500">{item.name}</span>
-                  <input type="checkbox" checked={booker == item._id ? true: false} onChange={()=> handleChecker(item._id)} />
+                  <input
+                    type="checkbox"
+                    checked={booker == item._id ? true : false}
+                    onChange={() => handleChecker(item._id)}
+                  />
                 </li>
               ))}
             </ul>
           </div>
-          <Checkbox checked={hide ? true: false} onChange={()=> setHide(!hide)} className="my-2 text-base font-medium">Ẩn hiện bài viết</Checkbox>
-          <button class="mt-8 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 float-right">Lưu</button>
+          <Checkbox
+            checked={hide ? true : false}
+            onChange={() => setHide(!hide)}
+            className="my-2 text-base font-medium"
+          >
+            Ẩn hiện bài viết
+          </Checkbox>
+          <button class="mt-8 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 float-right">
+            Lưu
+          </button>
         </form>
       </div>
-      
     </div>
   );
 }

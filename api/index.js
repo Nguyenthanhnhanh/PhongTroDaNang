@@ -13,7 +13,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 const querystring = require("qs");
-const crypto = require("crypto");   
+const crypto = require("crypto");
 
 require("dotenv").config();
 const app = express();
@@ -45,14 +45,13 @@ function getUserDataFromReq(req) {
 
 function formatDate(date) {
   const year = date.getFullYear().toString();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const seconds = date.getSeconds().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
   return `${year}${month}${day}${hours}${minutes}${seconds}`;
 }
-
 
 app.get("/test", (req, res) => {
   res.json("test ok");
@@ -81,7 +80,7 @@ app.post("/register", async (req, res) => {
         isBooker: false,
         acceptBooker: false,
         password: bcrypt.hashSync(password, bcryptSalt),
-        balanceCoin : 0
+        balanceCoin: 0,
       });
       res.json(userDoc);
     }
@@ -121,17 +120,39 @@ app.get("/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const { name, email, _id, avatar,address,phone,cmnd,issuedBy,dateEx, balanceCoin } = await User.findById(userData.id);
-      res.json({ name, email, _id, avatar,address,phone,cmnd,issuedBy,dateEx , balanceCoin});
+      const {
+        name,
+        email,
+        _id,
+        avatar,
+        address,
+        phone,
+        cmnd,
+        issuedBy,
+        dateEx,
+        balanceCoin,
+      } = await User.findById(userData.id);
+      res.json({
+        name,
+        email,
+        _id,
+        avatar,
+        address,
+        phone,
+        cmnd,
+        issuedBy,
+        dateEx,
+        balanceCoin,
+      });
     });
   } else {
     res.json(null);
   }
 });
 
-app.get("/detail-profile/:id", async(req, res) => {
+app.get("/detail-profile/:id", async (req, res) => {
   const { name } = await User.findById(req.params.id);
-      res.json({ name});
+  res.json({ name });
 });
 
 app.post("/logout", (req, res) => {
@@ -176,7 +197,7 @@ app.post("/places", (req, res) => {
     personBooker,
     status,
     areas,
-    numberBed
+    numberBed,
   } = req.body;
 
   const packageLong = {
@@ -207,79 +228,72 @@ app.post("/places", (req, res) => {
       status,
       memberStatus: false,
       isExpired: false,
-      isVip:false,
+      isVip: false,
       areas,
-      numberBed
+      numberBed,
     });
     res.json(placeDoc);
   });
 });
 
-app.post("/add-comment/:id", async(req, res) => {
+app.post("/add-comment/:id", async (req, res) => {
   try {
     const data = req.body;
-    Place.findOne({ _id: req.params.id })
-      .then(user => 
-      {
-        console.log(user.reviews);
-        if (user.reviews.length > 0) {
-          const review = {
-            idUser: data.idUser,
-            comment: data.comment
-          };
-          const old = [
-            ...user.reviews
-          ]
-          Place.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.params.id) },
-            {
-              $push: {
-                reviews: {
-                  $each: [review],
-                  $position: 0, 
-                  $slice: -10, 
-                  $sort: { createdAt: -1 } 
-                }
-              }
+    Place.findOne({ _id: req.params.id }).then((user) => {
+      console.log(user.reviews);
+      if (user.reviews.length > 0) {
+        const review = {
+          idUser: data.idUser,
+          comment: data.comment,
+        };
+        const old = [...user.reviews];
+        Place.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.id) },
+          {
+            $push: {
+              reviews: {
+                $each: [review],
+                $position: 0,
+                $slice: -10,
+                $sort: { createdAt: -1 },
+              },
             },
-             { new: true }  
-           ).then(s => {
-             if(s)
-             res.json({ message: 'thành công'});        
-           })
-        } else {
-          const review = {
-            idUser: data.idUser,
-            comment: data.comment
-          };
-          Place.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.params.id) },
-            {
-              $push: {
-                reviews: {
-               $each : [review]
-             } } },
-             { new: true }  
-           ).then(s => {
-             if(s)
-             res.json({ message: 'thành công'});        
-           })
-       }
-    }
-    )
-    
-    
+          },
+          { new: true }
+        ).then((s) => {
+          if (s) res.json({ message: "thành công" });
+        });
+      } else {
+        const review = {
+          idUser: data.idUser,
+          comment: data.comment,
+        };
+        Place.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.id) },
+          {
+            $push: {
+              reviews: {
+                $each: [review],
+              },
+            },
+          },
+          { new: true }
+        ).then((s) => {
+          if (s) res.json({ message: "thành công" });
+        });
+      }
+    });
 
-    // checkPlace.set({ 
+    // checkPlace.set({
     //   reviews: [review]
     // })
     // await checkPlace.save();
   } catch (error) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(error);
-    console.log('====================================');
+    console.log("====================================");
   }
-  })
+});
 
 app.get("/user-places", (req, res) => {
   const { token } = req.cookies;
@@ -291,15 +305,16 @@ app.get("/user-places", (req, res) => {
 
 app.get("/places/:id", async (req, res) => {
   const { id } = req.params;
-  res.json(await Place.findById(id)
-    .populate("personBooker")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "idUser",
-        model: "User",
-      },
-    })
+  res.json(
+    await Place.findById(id)
+      .populate("personBooker")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "idUser",
+          model: "User",
+        },
+      })
   );
 });
 
@@ -318,7 +333,7 @@ app.put("/places", async (req, res) => {
     price,
     status,
     areas,
-    numberBed
+    numberBed,
   } = req.body;
 
   const packageLong = {
@@ -349,7 +364,7 @@ app.put("/places", async (req, res) => {
         price,
         status,
         areas,
-    numberBed
+        numberBed,
       });
       await placeDoc.save();
       res.json("ok");
@@ -364,9 +379,9 @@ app.delete("/remove-room/:id", async (req, res) => {
 
     await Promise.all([deletePlacePromise, deleteBookingsPromise]);
 
-    res.status(200).json('ok');
+    res.status(200).json("ok");
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -382,77 +397,127 @@ app.put("/change-status/:id", async (req, res) => {
 
 app.get("/places-all/:id", async (req, res) => {
   const idd = req.params.id;
-  if (idd == 'null') {
-    const listAll = await Place.find({ status: true, memberStatus: false, isVip: false });
-    
+  if (idd == "null") {
+    const listAll = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: false,
+    });
+
     for (const item of listAll) {
       const today = new Date(item.dateCurrent);
       const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-  
+
       if (today < timeExpired) {
-        console.log('hi');
+        console.log("hi");
       } else {
-        console.log('man');
-        await Place.findByIdAndUpdate(item._id, { isVip: true ,isExpired: true });
+        console.log("man");
+        await Place.findByIdAndUpdate(item._id, {
+          isVip: true,
+          isExpired: true,
+        });
       }
     }
-    
-    const updatedList = await Place.find({ status: true, memberStatus: false, isVip: false  });
+
+    const updatedList = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: false,
+    });
     res.json(updatedList);
   } else {
-    const listAll = await Place.find({ status: true, memberStatus: false, isVip: false});
-    
-      for (const item of listAll) {
-        const today = new Date(item.dateCurrent);
-        const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    
-        if (today < timeExpired) {
-          console.log('hi');
-        } else {
-          console.log('man');
-          await Place.findByIdAndUpdate(item._id, { isVip: true ,isExpired: true });
-        }
+    const listAll = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: false,
+    });
+
+    for (const item of listAll) {
+      const today = new Date(item.dateCurrent);
+      const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+      if (today < timeExpired) {
+        console.log("hi");
+      } else {
+        console.log("man");
+        await Place.findByIdAndUpdate(item._id, {
+          isVip: true,
+          isExpired: true,
+        });
       }
-      
-      const updatedList = await Place.find({ status: true, memberStatus: false, isVip: false , owner: { $ne: idd }  });
-      res.json(updatedList);
+    }
+
+    const updatedList = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: false,
+      owner: { $ne: idd },
+    });
+    res.json(updatedList);
   }
 });
 
 app.get("/place-not-vip/:id", async (req, res) => {
-  if (req.params.id == 'null') {
-    const listAll = await Place.find({ status: true, memberStatus: false, isVip: true, isExpired: false });
-    
-      for (const item of listAll) {
-        const today = new Date(item.dateCurrent);
-        const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    
-        if (today < timeExpired) {
-          console.log('hi');
-        } else {
-          console.log('man');
-          await Place.findByIdAndUpdate(item._id, { isVip: true, isExpired: true });
-        }
-      }
-      
-      const updatedList = await Place.find({ status: true, memberStatus: false, isVip: true, isExpired: false  });
-      res.json(updatedList);
-  } else {
-    const listAll = await Place.find({ status: true, memberStatus: false, isVip: true, isExpired: false});
-    
+  if (req.params.id == "null") {
+    const listAll = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: true,
+      isExpired: false,
+    });
+
     for (const item of listAll) {
       const today = new Date(item.dateCurrent);
       const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-  
+
       if (today < timeExpired) {
-        console.log('hi');
+        console.log("hi");
       } else {
-        console.log('man');
-        await Place.findByIdAndUpdate(item._id, { isVip: true, isExpired: true });
+        console.log("man");
+        await Place.findByIdAndUpdate(item._id, {
+          isVip: true,
+          isExpired: true,
+        });
       }
     }
-    
-    const updatedList = await Place.find({ status: true, memberStatus: false, isVip: true, isExpired: false , owner: { $ne: req.params.id }  });
+
+    const updatedList = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: true,
+      isExpired: false,
+    });
+    res.json(updatedList);
+  } else {
+    const listAll = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: true,
+      isExpired: false,
+    });
+
+    for (const item of listAll) {
+      const today = new Date(item.dateCurrent);
+      const timeExpired = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+      if (today < timeExpired) {
+        console.log("hi");
+      } else {
+        console.log("man");
+        await Place.findByIdAndUpdate(item._id, {
+          isVip: true,
+          isExpired: true,
+        });
+      }
+    }
+
+    const updatedList = await Place.find({
+      status: true,
+      memberStatus: false,
+      isVip: true,
+      isExpired: false,
+      owner: { $ne: req.params.id },
+    });
     res.json(updatedList);
   }
 });
@@ -502,29 +567,31 @@ app.post("/bookings", async (req, res) => {
 
 app.get("/bookings", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  res.json(await Booking.find({ user: userData.id })
-    .populate("place")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "idUser",
-        model: "User",
-      },
-    })
+  res.json(
+    await Booking.find({ user: userData.id })
+      .populate("place")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "idUser",
+          model: "User",
+        },
+      })
   );
 });
 
 app.get("/bookings/receipt", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  res.json(await Booking.find({ userMain: userData.id })
-    .populate("place")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "idUser",
-        model: "User",
-      },
-    })
+  res.json(
+    await Booking.find({ userMain: userData.id })
+      .populate("place")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "idUser",
+          model: "User",
+        },
+      })
   );
 });
 
@@ -560,8 +627,6 @@ app.get("/get-all-user-booker-active", async (req, res) => {
   }
 });
 
-
-
 app.delete(`/remove-user/:id`, async (req, res) => {
   const id = req.params;
 
@@ -570,7 +635,6 @@ app.delete(`/remove-user/:id`, async (req, res) => {
     await User.findOne({ _id: vId }).remove().exec();
     res.json({ data: "delete success" });
   }
-  
 });
 
 app.put("/approval-booker-status/:id", async (req, res) => {
@@ -642,116 +706,109 @@ app.get("/get-list-detail-booker/:id", async (req, res) => {
 app.put("/update-status/:id", async (req, res) => {
   const a = await Booking.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
-    { status: req.body.status },
+    { status: req.body.status }
   );
   if (a) {
-    const item = await Booking.findOne({_id: req.params.id});
-    if (req.body.status == 'cancel') {
+    const item = await Booking.findOne({ _id: req.params.id });
+    if (req.body.status == "cancel") {
       await Place.findByIdAndUpdate(
         { _id: mongoose.Types.ObjectId(item.place) },
-      { memberStatus: false },
-      )
-      console.log('====================================');
-      console.log('update code');
-      console.log('====================================');
+        { memberStatus: false }
+      );
+      console.log("====================================");
+      console.log("update code");
+      console.log("====================================");
     }
     res.json("success");
-    }
+  }
 });
 
 app.put("/update-service/:id", async (req, res) => {
   const response = await Booking.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
-      { service: req.body.service },
-  )
+    { service: req.body.service }
+  );
 
   if (response) {
     await User.findByIdAndUpdate(
-      { _id: mongoose.Types.ObjectId(response.user)},
+      { _id: mongoose.Types.ObjectId(response.user) },
       {
-        balanceCoin: req.body.balanceCoin
+        balanceCoin: req.body.balanceCoin,
       }
-      )
-      return res.status(200).json('success');
+    );
+    return res.status(200).json("success");
   }
-})
+});
 
-app.post("/add-service-comment/:id", async(req, res) => {
+app.post("/add-service-comment/:id", async (req, res) => {
   try {
     const data = req.body;
-    Booking.findOne({ _id: req.params.id })
-      .then(user => 
-      {
-        console.log(user.reviews);
-        if (user.reviews.length > 0) {
-          const review = {
-            idUser: data.idUser,
-            comment: data.comment
-          };
-          const old = [
-            ...user.reviews
-          ]
-          Booking.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.params.id) },
-            {
-              $push: {
-                reviews: {
-                  $each: [review],
-                  $position: 0, 
-                  $slice: -10, 
-                  $sort: { createdAt: -1 } 
-                }
-              }
+    Booking.findOne({ _id: req.params.id }).then((user) => {
+      console.log(user.reviews);
+      if (user.reviews.length > 0) {
+        const review = {
+          idUser: data.idUser,
+          comment: data.comment,
+        };
+        const old = [...user.reviews];
+        Booking.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.id) },
+          {
+            $push: {
+              reviews: {
+                $each: [review],
+                $position: 0,
+                $slice: -10,
+                $sort: { createdAt: -1 },
+              },
             },
-             { new: true }  
-           ).then(s => {
-             if(s)
-             res.json({ message: 'thành công'});        
-           })
-        } else {
-          const review = {
-            idUser: data.idUser,
-            comment: data.comment
-          };
-          Booking.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.params.id) },
-            {
-              $push: {
-                reviews: {
-               $each : [review]
-             } } },
-             { new: true }  
-           ).then(s => {
-             if(s)
-             res.json({ message: 'thành công'});        
-           })
-       }
-    }
-    )
-    
-    
+          },
+          { new: true }
+        ).then((s) => {
+          if (s) res.json({ message: "thành công" });
+        });
+      } else {
+        const review = {
+          idUser: data.idUser,
+          comment: data.comment,
+        };
+        Booking.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.id) },
+          {
+            $push: {
+              reviews: {
+                $each: [review],
+              },
+            },
+          },
+          { new: true }
+        ).then((s) => {
+          if (s) res.json({ message: "thành công" });
+        });
+      }
+    });
 
-    // checkPlace.set({ 
+    // checkPlace.set({
     //   reviews: [review]
     // })
     // await checkPlace.save();
   } catch (error) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(error);
-    console.log('====================================');
+    console.log("====================================");
   }
-  })
+});
 
 app.put("/update-profile/:id", async (req, res) => {
   const input = req.body;
   await User.findByIdAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
     {
-    ...input
-  },
-  )
+      ...input,
+    }
+  );
   res.json("success");
-})
+});
 
 app.get("/profile-show", (req, res) => {
   const { token } = req.cookies;
@@ -768,12 +825,16 @@ app.get("/profile-show", (req, res) => {
 
 app.get("/filter-by-name/:name", async (req, res) => {
   const name = req.params.name;
-  const data = await Place.find({ title: {$regex: name, $options: 'i'} ,status: true, memberStatus: false, isExpired: false});
+  const data = await Place.find({
+    address: { $regex: name, $options: "i" },
+    status: true,
+    memberStatus: false,
+    isExpired: false,
+  });
   if (data) {
     res.json({ data: data });
   }
 });
-
 
 app.get("/filter-by-price/:name/:type", async (req, res) => {
   const name = req.params.name;
@@ -782,11 +843,11 @@ app.get("/filter-by-price/:name/:type", async (req, res) => {
   const renderPrice = (type) => {
     let pr1 = 0;
     let pr2 = 0;
-  
-    if (type === 'small') {
+
+    if (type === "small") {
       pr1 = 2000000;
       pr2 = 5000000;
-    } else if (type === 'medium') {
+    } else if (type === "medium") {
       pr1 = 5000000;
       pr2 = 10000000;
     } else {
@@ -795,46 +856,62 @@ app.get("/filter-by-price/:name/:type", async (req, res) => {
     }
     return {
       pr1,
-      pr2
-    }
-  }
+      pr2,
+    };
+  };
 
   const renderP = renderPrice(name);
 
-  if (type === 'packageShort') {
-    Place.find({ 'packageShort.price': { $gt: renderP.pr1 , $lt: renderP.pr2 }, status: true, memberStatus: false, isExpired: false , isVip: true}, (err,data) => {
-    if (err) {
-      console.log('====================================');
-      console.log(err);
-      console.log('====================================');
-    } else {
-      res.json({ data: data });
-    }
-  });
-  } else {
-    console.log('====================================');
-    console.log('long');
-    console.log('====================================');
-    Place.find({ 'packageLong.price': { $gt: renderP.pr1 , $lt: renderP.pr2 } , status: true, memberStatus: false, isExpired: false}, (err,data) => {
-      if (err) {
-        console.log('====================================');
-        console.log(err);
-        console.log('====================================');
-      } else {
-        res.json({ data: data });
+  if (type === "packageShort") {
+    Place.find(
+      {
+        "packageShort.price": { $gt: renderP.pr1, $lt: renderP.pr2 },
+        status: true,
+        memberStatus: false,
+        isExpired: false,
+        isVip: true,
+      },
+      (err, data) => {
+        if (err) {
+          console.log("====================================");
+          console.log(err);
+          console.log("====================================");
+        } else {
+          res.json({ data: data });
+        }
       }
-    });
+    );
+  } else {
+    console.log("====================================");
+    console.log("long");
+    console.log("====================================");
+    Place.find(
+      {
+        "packageLong.price": { $gt: renderP.pr1, $lt: renderP.pr2 },
+        status: true,
+        memberStatus: false,
+        isExpired: false,
+      },
+      (err, data) => {
+        if (err) {
+          console.log("====================================");
+          console.log(err);
+          console.log("====================================");
+        } else {
+          res.json({ data: data });
+        }
+      }
+    );
   }
 });
 
-
 app.get("/filter-by-type/:name", async (req, res) => {
   const name = req.params.name;
-  Place.find({ '[name]price': {$lte: 5000000}}, (err,data) => {
+  Place.find({ "[name]price": { $lte: 5000000 } }, (err, data) => {
     if (err) {
-      console.log('====================================');
+      console.log("====================================");
       console.log(err);
-      console.log('====================================');
+      console.log("====================================");
     } else {
       res.json({ data: data });
     }
@@ -846,70 +923,69 @@ app.put("/update-coin/:id", async (req, res) => {
   await User.findByIdAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
     {
-    ...input
-  },
-  )
+      ...input,
+    }
+  );
   res.json("success");
-})
+});
 
 app.put("/add-to-time-expried/:id", async (req, res) => {
-
   await Place.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
     {
       isExpired: req.body.isExpired,
-      dateCurrent: req.body.dateCurrent
+      dateCurrent: req.body.dateCurrent,
     }
   );
-  
-  await User.findByIdAndUpdate(req.body.idUser, { balanceCoin: Number(req.body.balance) - 100 });
 
-  return res.status(200).json('success')
-})
+  await User.findByIdAndUpdate(req.body.idUser, {
+    balanceCoin: Number(req.body.balance) - 100,
+  });
+
+  return res.status(200).json("success");
+});
 
 app.put("/add-to-time-expried-vip/:id", async (req, res) => {
-
   await Place.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id) },
     {
       isVip: req.body.isVip,
       isExpired: false,
-      dateCurrent: req.body.dateCurrent
+      dateCurrent: req.body.dateCurrent,
     }
   );
-  
-  await User.findByIdAndUpdate(req.body.idUser, { balanceCoin: Number(req.body.balance) - 300 });
 
-  return res.status(200).json('success')
-})
+  await User.findByIdAndUpdate(req.body.idUser, {
+    balanceCoin: Number(req.body.balance) - 300,
+  });
 
-const tmnCode = '7EH8TCJO';
-const secretKey = 'JAXJBTTFSSTFNGHLOFOCHYOLWPULIKHP';
-const url = 'http://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-const returnUrl ='http://127.0.0.1:5173/orderSuccess?';
+  return res.status(200).json("success");
+});
+
+const tmnCode = "7EH8TCJO";
+const secretKey = "JAXJBTTFSSTFNGHLOFOCHYOLWPULIKHP";
+const url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+const returnUrl = "http://127.0.0.1:5173/orderSuccess?";
 
 app.post("/vnp-payment-confirmation", async (req, res) => {
-
-  const {
-    amount
-  } = req.body;
+  const { amount } = req.body;
 
   let ipAddr =
     req.headers["x-forwarded-for"] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
-  
-    let vnpUrl = url;
-    const date = new Date();
-  
-    const createDate = formatDate(date);
-  const orderId = 'ssssss';
-  
+
+  let vnpUrl = url;
+  const date = new Date();
+
+  const createDate = formatDate(date);
+  const orderId = "ssssss";
+
   var locale = "vn";
   var currCode = "VND";
   var vnp_Params = {};
-  vnp_Params["vnp_Amount"] = amount*100;
+  vnp_Params["vnp_Amount"] = amount * 100;
   vnp_Params["vnp_Command"] = "pay";
   vnp_Params["vnp_BankCode"] = "NCB";
   vnp_Params["vnp_CreateDate"] = createDate;
@@ -920,25 +996,24 @@ app.post("/vnp-payment-confirmation", async (req, res) => {
   vnp_Params["vnp_OrderType"] = "billpayment";
   vnp_Params["vnp_ReturnUrl"] = returnUrl;
   vnp_Params["vnp_TmnCode"] = tmnCode;
-  vnp_Params["vnp_TxnRef"] = 'ooo';
+  vnp_Params["vnp_TxnRef"] = "ooo";
   vnp_Params["vnp_Version"] = "2.0";
-
 
   vnp_Params = sortObject(vnp_Params);
 
-  var signData =  querystring.stringify(vnp_Params, { encode: false });
+  var signData = querystring.stringify(vnp_Params, { encode: false });
 
   // var secureHash = sha256(signData);
-  var crypto = require("crypto");     
-        var hmac = crypto.createHmac("sha512", secretKey);
-        var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex"); 
+  var crypto = require("crypto");
+  var hmac = crypto.createHmac("sha512", secretKey);
+  var signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
 
   // vnp_Params["vnp_SecureHashType"] = "SHA256";
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: true });
 
-  res.status(200).json({ code: "00", data: vnpUrl })
-})
+  res.status(200).json({ code: "00", data: vnpUrl });
+});
 
 function sortObject(o) {
   var sorted = {},
@@ -960,7 +1035,9 @@ function sortObject(o) {
 }
 
 app.get("/api/config/paypal", (req, res) => {
-  res.send('AaiOR0UuKrkTaDWKtlae81PRr3enX2RBcxrcpX39uHH2VJy1ntxfIu3LuU8wOgey8oHm4SzH3cwqM5N5');
+  res.send(
+    "AaiOR0UuKrkTaDWKtlae81PRr3enX2RBcxrcpX39uHH2VJy1ntxfIu3LuU8wOgey8oHm4SzH3cwqM5N5"
+  );
 });
 
 app.get("/list-invoice", async (req, res) => {
@@ -969,23 +1046,17 @@ app.get("/list-invoice", async (req, res) => {
   if (data) {
     return res.json(data);
   }
-})
+});
 
 app.post("/invoice", async (req, res) => {
-  
-  const {name,
+  const { name, idUser, coin, note, status, type } = req.body;
+  await Invoice.create({
+    name,
     idUser,
     coin,
     note,
     status,
-    type} = req.body
-  await Invoice.create({
-    name,
-idUser,
-coin,
-note,
-status,
-type
+    type,
   })
     .then((doc) => {
       res.json(doc);
@@ -994,6 +1065,5 @@ type
       throw err;
     });
 });
-
 
 app.listen(4000);

@@ -6,25 +6,35 @@ import PlacesPage from "./PlacesPage";
 import AccountNav from "../AccountNav";
 import { toast } from "react-toastify";
 import { PayPalButton } from "react-paypal-button-v2";
-import { Space, Table, Tag, Descriptions, Typography, Col, Divider, Row } from 'antd';
+import {
+  Space,
+  Table,
+  Tag,
+  Descriptions,
+  Typography,
+  Col,
+  Divider,
+  Row,
+} from "antd";
 import support from "../assets/support.png";
 
 export default function ProfilePage() {
   const { Title } = Typography;
-  
+
   const [redirect, setRedirect] = useState(null);
   const { ready, user, setUser } = useContext(UserContext);
   const [price, setPrice] = useState("");
   const [profile, setProfile] = useState({
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80',
-    name: '',
-    email: '',
-    address: '',
-    phone: '',
-    cmnd: '',
-    issuedBy: '',
-    dateEx: '',
-  })
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80",
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+    cmnd: "",
+    issuedBy: "",
+    dateEx: "",
+  });
   let { subpage } = useParams();
   if (subpage === undefined) {
     subpage = "profile";
@@ -38,76 +48,71 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch();
-  },[])
+  }, []);
 
   const fetch = async () => {
     const res = await axios.get("/profile-show");
     if (res.status === 200) {
-          setProfile({
-      avatar: res.data.avatar,
-      name: res.data.name,
-      email: res.data.email,
-      address: res.data.address,
-      phone: res.data.phone,
-      cmnd: res.data.cmnd,
-      issuedBy: res.data.issuedBy,
-      dateEx: res.data.dateEx,
-    })
+      setProfile({
+        avatar: res.data.avatar,
+        name: res.data.name,
+        email: res.data.email,
+        address: res.data.address,
+        phone: res.data.phone,
+        cmnd: res.data.cmnd,
+        issuedBy: res.data.issuedBy,
+        dateEx: res.data.dateEx,
+      });
     }
-  }
+  };
 
   const onChangeInput = (key, value) => {
     setProfile({
       ...profile,
-      [key] : value
-    })
-  }
+      [key]: value,
+    });
+  };
 
-  const addInvoice = (cPrice , balanceCoin) => {
+  const addInvoice = (cPrice, balanceCoin) => {
     const bodyy = {
       name: user.name,
-      idUser:user._id,
+      idUser: user._id,
       coin: Number(cPrice) + Number(balanceCoin),
-      note: 'Nộp tiền',
-      status:'Thành công',
-      type:'User nạp tiền ví Paypal'
+      note: "Nộp tiền",
+      status: "Thành công",
+      type: "User nạp tiền ví Paypal",
     };
     try {
-      const res = axios.post("/invoice", {...bodyy});
-    } catch (error) {
-      
-    }
-  }
+      const res = axios.post("/invoice", { ...bodyy });
+    } catch (error) {}
+  };
 
   const successPaymentHandler = async (paymentResult) => {
     const cPrice = Number(price) * 23000;
 
     try {
-      const res = await axios.put(`/update-coin/${user._id}`,{balanceCoin: Number(cPrice) + Number(user.balanceCoin) ?? 0});
+      const res = await axios.put(`/update-coin/${user._id}`, {
+        balanceCoin: Number(cPrice) + Number(user.balanceCoin) ?? 0,
+      });
       if (res.status === 200) {
-        setPrice('');
-        toast.success('Tăng số coin thành công');
-        addInvoice(cPrice , user.balanceCoin)
+        setPrice("");
+        toast.success("Tăng số coin thành công");
+        addInvoice(cPrice, user.balanceCoin);
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
+  };
 
-};
-  
-  const handleUpdateProfile = async() => {
+  const handleUpdateProfile = async () => {
     try {
       const params = {
-        ...profile
-      }
+        ...profile,
+      };
       const res = await axios.put(`/update-profile/${user._id}`, params);
       if (res.status === 200) {
-        toast.success('Cập nhật thông tin thành công')
+        toast.success("Cập nhật thông tin thành công");
       }
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
   if (!ready) {
     return "Loading...";
@@ -121,18 +126,17 @@ export default function ProfilePage() {
     return <Navigate to={redirect} />;
   }
 
-
   const handlePriceChange = (e) => {
     const inputVal = e.target.value;
 
-  // Only allow numeric characters, decimal point, and up to two decimal places
-  const regex = /^([1-9][0-9]*|0)(\.[0-9]{1,2})?$/;
+    // Only allow numeric characters, decimal point, and up to two decimal places
+    const regex = /^([1-9][0-9]*|0)(\.[0-9]{1,2})?$/;
 
-  if (inputVal === "") {
-    setPrice(""); // clear price state when input is empty
-  } else if (regex.test(inputVal)) {
-    setPrice(inputVal);
-  }
+    if (inputVal === "") {
+      setPrice(""); // clear price state when input is empty
+    } else if (regex.test(inputVal)) {
+      setPrice(inputVal);
+    }
   };
 
   return (
@@ -142,23 +146,32 @@ export default function ProfilePage() {
         {subpage === "profile" && (
           <>
             <div className="mb-4 sm:mt-0">
-              <div className="md:grid"> 
-                <h1 class="mb-4 text-2xl font-semibold tracking-tight leading-none dark:text-white">Nạp tiền bằng ví Paypal</h1>
-                <div className="flex justify-center items-center" style={{ width: '300px' }}>
-                <input
+              <div className="md:grid">
+                <h1 class="mb-4 text-2xl font-semibold tracking-tight leading-none dark:text-white">
+                  Nạp tiền bằng ví Paypal
+                </h1>
+                <div
+                  className="flex justify-center items-center"
+                  style={{ width: "300px" }}
+                >
+                  <input
                     placeholder="Nhập số tiền cần nạp"
                     type="text"
                     value={price}
                     onChange={handlePriceChange}
                     className="mt-1 ml-2 mr-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  /> $
-                  {
-                    price && (
-                      <PayPalButton amount={price} onSuccess={successPaymentHandler} options={{ 
-                        clientId:'AaiOR0UuKrkTaDWKtlae81PRr3enX2RBcxrcpX39uHH2VJy1ntxfIu3LuU8wOgey8oHm4SzH3cwqM5N5'
-                      }} />
-                    )
-                  }
+                  />{" "}
+                  $
+                  {price && (
+                    <PayPalButton
+                      amount={price}
+                      onSuccess={successPaymentHandler}
+                      options={{
+                        clientId:
+                          "AaiOR0UuKrkTaDWKtlae81PRr3enX2RBcxrcpX39uHH2VJy1ntxfIu3LuU8wOgey8oHm4SzH3cwqM5N5",
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -196,76 +209,120 @@ export default function ProfilePage() {
             </thead>
             <tbody className="divide-y divide-gray-100 border-t border-gray-100 text-slate-700 font-normal text-base">
               <tr className="hover:bg-slate-50 cursor-pointer">
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">1
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  1
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">23.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  23.000
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">0
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  0
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">23.000
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 cursor-pointer">
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">10
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">230.000
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">10.000
-                </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">240.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  23.000
                 </td>
               </tr>
               <tr className="hover:bg-slate-50 cursor-pointer">
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">20
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  10
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">460.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  230.000
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">25.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  10.000
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">485.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  240.000
                 </td>
               </tr>
               <tr className="hover:bg-slate-50 cursor-pointer">
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">30
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  20
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">690.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  460.000
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">60.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  25.000
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">750.000
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  485.000
+                </td>
+              </tr>
+              <tr className="hover:bg-slate-50 cursor-pointer">
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  30
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  690.000
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  60.000
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
+                  750.000
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <section className="mx-5 section section-support" style={{ textAlign: 'center', justifyContent: 'center' }}>
+        <section
+          className="mx-5 section section-support"
+          style={{ textAlign: "center", justifyContent: "center" }}
+        >
           <Title level={3}>Liên hệ với chúng tôi nếu bạn cần hỗ trợ</Title>
           <img className="center" src={support} alt="support" />
           <Row className="my-10">
-              <Col span={6}>
-                  <span class="support-item-title">Hỗ trợ đăng tin 1</span>
-                  <a className="support-item" rel="nofollow" href="tel:0937497677">Điện thoại: 0937497677</a>
-                  <a className="support-item" rel="nofollow" href="https://zalo.me/0937497677">Zalo: 0937497677</a>
-              </Col>
-              <Col span={6}>
-                  <span class="support-item-title">Hỗ trợ đăng tin 2</span>
-                  <a className="support-item" rel="nofollow" href="tel:0937497677">Điện thoại: 0937497677</a>
-                  <a className="support-item" rel="nofollow" href="https://zalo.me/0937497677">Zalo: 0937497677</a>
-              </Col>
-              <Col span={6}>
-                  <span class="support-item-title">Giao dịch trực tiếp 1</span>
-                  <a className="support-item" rel="nofollow" href="tel:0937497677">Điện thoại: 0937497677</a>
-                  <p className="support-item">MM4 Trường Sơn P15 Q10 TPHCM</p>
-              </Col>
-              <Col span={6}>
-                  <span class="support-item-title">Giao dịch trực tiếp 2</span>
-                  <a className="support-item" rel="nofollow" href="tel:0937497677">Điện thoại: 0937497677</a>
-                  <a className="support-item" rel="nofollow" href="https://zalo.me/0937497677">Zalo: 0937497677</a>
-              </Col>
+            <Col span={6}>
+              <span class="support-item-title">Hỗ trợ đăng tin 1</span>
+              <a className="support-item" rel="nofollow" href="tel:0337289239">
+                Điện thoại: 0337289239
+              </a>
+              <a
+                className="support-item"
+                rel="nofollow"
+                href="https://zalo.me/0337289239"
+              >
+                Zalo: 0337289239
+              </a>
+            </Col>
+            <Col span={6}>
+              <span class="support-item-title">Hỗ trợ đăng tin 2</span>
+              <a className="support-item" rel="nofollow" href="tel:0337289239">
+                Điện thoại: 0337289239
+              </a>
+              <a
+                className="support-item"
+                rel="nofollow"
+                href="https://zalo.me/0337289239"
+              >
+                Zalo: 0337289239
+              </a>
+            </Col>
+            <Col span={6}>
+              <span class="support-item-title">Giao dịch trực tiếp 1</span>
+              <a className="support-item" rel="nofollow" href="tel:0337289239">
+                Điện thoại: 0337289239
+              </a>
+              <p className="support-item">MM4 48 Cao Thắng - Đà Nẵng</p>
+            </Col>
+            <Col span={6}>
+              <span class="support-item-title">Giao dịch trực tiếp 2</span>
+              <a className="support-item" rel="nofollow" href="tel:0337289239">
+                Điện thoại: 0337289239
+              </a>
+              <a
+                className="support-item"
+                rel="nofollow"
+                href="https://zalo.me/0337289239"
+              >
+                Zalo: 0337289239
+              </a>
+            </Col>
           </Row>
-      </section>
+        </section>
       </div>
-      
     </div>
   );
 }

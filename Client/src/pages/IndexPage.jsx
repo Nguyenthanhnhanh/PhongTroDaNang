@@ -22,6 +22,8 @@ export default function IndexPage() {
   const [bookings, setBookings] = useState([]);
   const { user, setUser } = useContext(UserContext);
 
+  const [totalNoibat, setTotalNoibat] = useState(6);
+  console.log(totalNoibat, "totalNoibat");
   useEffect(() => {
     new Promise(async () => {
       await getListBooker();
@@ -96,7 +98,7 @@ export default function IndexPage() {
             <div className="flex flex-wrap items-center">
               <div className="ml-auto mr-auto w-full px-4 text-center lg:w-8/12">
                 <h1 class="text-3xl font-bold tracking-tight leading-none text-white md:text-4xl lg:text-5xl dark:text-white">
-                  Xây dựng tổ ấm cùng HomeUs
+                  Đà Nẵng - Phòng trọ tuyệt vời
                 </h1>
                 <section class="mt-10 flex items-center">
                   <div class="max-w-screen-xl px-4 mx-auto lg:px-12 w-full">
@@ -132,7 +134,7 @@ export default function IndexPage() {
                                 type="search"
                                 id="default-search"
                                 className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Nhập tên cần lọc"
+                                placeholder="Nhập khu vực cần tìm kiếm"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
@@ -143,6 +145,59 @@ export default function IndexPage() {
                                 className="text-white absolute right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
                               >
                                 Tìm kiếm
+                              </button>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: "20px",
+                                justifyContent: "space-between",
+                                gap: "20px",
+                              }}
+                            >
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Thanh Khê
+                              </button>
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/liên%chiểu")}
+                              >
+                                Liên Chiểu
+                              </button>
+
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Hải Châu
+                              </button>
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Sơn Trà
+                              </button>
+
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Ngũ Hành Sơn
+                              </button>
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Cẩm Lệ
+                              </button>
+                              <button
+                                className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
+                                onClick={() => navigate("/search/sơn%20trà")}
+                              >
+                                Hòa Vang
                               </button>
                             </div>
                           </h3>
@@ -211,29 +266,18 @@ export default function IndexPage() {
               </h1>
             </div>
             <div>
-              <a
-                href="/search"
-                class="inline-flex items-center font-medium text-primary-600 hover:text-blue-800 dark:text-primary-500 dark:hover:text-primary-700"
+              <button
+                onClick={() => {
+                  setTotalNoibat(100);
+                }}
               >
                 Xem tất cả
-                <svg
-                  class="ml-1 w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
+              </button>
             </div>
           </div>
           <div class="my-10 space-y-8 space-x-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 md:space-x-0">
             {places.length > 0 &&
-              places.slice(0, 6).map((place) => (
+              places.slice(0, 24).map((place) => (
                 <Link to={"/place/" + place._id}>
                   <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl transition duration-300 ease-in-out hover:scale-105">
                     <img
@@ -316,7 +360,7 @@ export default function IndexPage() {
           </div>
           <div class="my-10 space-y-8 space-x-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 md:space-x-0">
             {placesNotVip.length > 0 &&
-              placesNotVip.slice(0, 6).map((place) => (
+              placesNotVip.slice(0, totalNoibat).map((place) => (
                 <Link to={"/place/" + place._id}>
                   <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl transition duration-300 ease-in-out hover:scale-105">
                     <img
