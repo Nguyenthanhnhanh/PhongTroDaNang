@@ -541,10 +541,11 @@ app.post("/bookings", async (req, res) => {
   //   await placeDoc.set({
   //     memberStatus: true
   //   });
-  await Place.findOneAndUpdate(
-    { _id: mongoose.Types.ObjectId(place) },
-    { memberStatus: true }
-  );
+  
+  // await Place.findOneAndUpdate(
+  //   { _id: mongoose.Types.ObjectId(place) },
+  //   { memberStatus: true }
+  // );
   await Booking.create({
     place,
     checkIn,

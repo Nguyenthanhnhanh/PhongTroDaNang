@@ -138,7 +138,27 @@ export default function ProfilePage() {
       setPrice(inputVal);
     }
   };
+  const submitCoin = async () => {
+    if (!price) {
+      toast.error("Vui lòng nhập đầy đủ");
+    } else {
 
+    try{
+    const res = await axios.put(`/update-coin/${user._id}`, {
+      balanceCoin: Number(price) + Number(user.balanceCoin) ?? 0,
+    });
+    if (res.status === 200) {
+      setPrice("");
+      toast.success("Số tiền của bạn là:"+ (Number(price) + Number(user.balanceCoin)))
+      addInvoice(price, user.balanceCoin);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000)
+    }
+  } catch (error) {}
+}
+
+  };
   return (
     <div>
       <AccountNav />
@@ -148,36 +168,37 @@ export default function ProfilePage() {
             <div className="mb-4 sm:mt-0">
               <div className="md:grid">
                 <h1 className="mb-4 text-2xl font-semibold tracking-tight leading-none dark:text-white">
-                  Nạp tiền bằng ví Paypal
+                  Nạp tiền
                 </h1>
                 <div
                   className="flex justify-center items-center"
-                  style={{ width: "300px" }}
+                  style={{ width: "1000px" }}
                 >
                   <input
                     placeholder="Nhập số tiền cần nạp"
                     type="text"
                     value={price}
                     onChange={handlePriceChange}
-                    className="mt-1 ml-2 mr-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  />{" "}
-                  $
-                  {price && (
-                    <PayPalButton
-                      amount={price}
-                      onSuccess={successPaymentHandler}
-                      options={{
-                        clientId:
-                          "AaiOR0UuKrkTaDWKtlae81PRr3enX2RBcxrcpX39uHH2VJy1ntxfIu3LuU8wOgey8oHm4SzH3cwqM5N5",
-                      }}
-                    />
-                  )}
+                    className="mt-1 ml-2 mr-1 focus:ring-indigo-500 w-10 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                  vnd
+                  <input
+                    placeholder="Nhập số thẻ ATM"
+                    type="text"
+                    className="mt-1 ml-2 w-full mr-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                  <input
+                    placeholder="Nhập mật khẩu"
+                    type="password"
+                    className="mt-1 ml-2 w-full mr-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                    <button onClick={submitCoin} className="ml-10 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">Nạp</button>
                 </div>
               </div>
             </div>
           </>
         )}
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+        {/* <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-100">
               <tr>
@@ -266,7 +287,7 @@ export default function ProfilePage() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
         <section
           className="mx-5 section section-support"
           style={{ textAlign: "center", justifyContent: "center" }}

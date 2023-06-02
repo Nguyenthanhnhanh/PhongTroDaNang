@@ -18,7 +18,7 @@ export default function SearchPage() {
         axios.get(`/filter-by-name/${text}`).then((response) => {
           setPlaces(response?.data?.data);
           if (!response?.data?.data.length) {
-            toast("Khong co phong tro tai khu vuc nay");
+            toast("Không có phòng trọ tại khu vực này");
             // alert("Khong co phong tro tai khu vuc nay");
           }
         });

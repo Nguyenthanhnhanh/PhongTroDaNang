@@ -35,6 +35,7 @@ export default function IndexPage() {
       });
 
       axios.get(`/place-not-vip/${user?._id ?? "null"}`).then((response) => {
+        console.log(response.data, "check")
         setPlacesNotVip(response.data);
       });
     } else {
@@ -43,6 +44,9 @@ export default function IndexPage() {
       });
 
       axios.get(`/place-not-vip/${"null"}`).then((response) => {
+        console.log(response.data, "check2")
+        
+        
         setPlacesNotVip(response.data);
       });
     }
