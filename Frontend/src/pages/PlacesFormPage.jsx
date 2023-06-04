@@ -6,6 +6,7 @@ import AccountNav from "../AccountNav";
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Checkbox } from "antd";
+import Perks2 from "../Perks2.jsx";
 export default function PlacesFormPage() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
@@ -13,6 +14,7 @@ export default function PlacesFormPage() {
   const [addedPhotos, setAddedPhotos] = useState([]);
   const [description, setDescription] = useState("");
   const [perks, setPerks] = useState([]);
+  const [perks2, setPerks2] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -46,6 +48,7 @@ export default function PlacesFormPage() {
       setAddedPhotos(data.photos);
       setDescription(data.description);
       setPerks(data.perks);
+      setPerks2(data.perks2 || "");
       setHide(data.status);
       setExtraInfo(data.extraInfo);
       setListShort({
@@ -99,6 +102,7 @@ export default function PlacesFormPage() {
       addedPhotos,
       description,
       perks,
+      perks2,
       extraInfo,
       package: [
         {
@@ -180,6 +184,10 @@ export default function PlacesFormPage() {
           <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             <Perks selected={perks} onChange={setPerks} />
           </div>
+          {preInput("Loại", "Hãy Chọn 1 trong các Loại sau")}
+          <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            <Perks2 selected={perks2} onChange={setPerks2} />
+          </div>
           {preInput("Thông Tin Khác", "Một Số Thông Tin Khác")}
           <textarea
             value={extraInfo}
@@ -202,7 +210,7 @@ export default function PlacesFormPage() {
           />
           {preInput("Thời gian thuê", "Thêm Thông Tin Thời Gian Khi Thuê")}
 
-          <h2 className="p-2 m-2 underline font-bold">Gói Ngắn Hạn</h2>
+          {/* <h2 className="p-2 m-2 underline font-bold">Gói Ngắn Hạn</h2>
           <div className="grid gap-2 grid-cols-2 border rounded-2xl p-4 m-2">
             <div>
               <h3 className="mt-2 -mb-1">Thời Gian Bắt Đầu</h3>
@@ -253,7 +261,7 @@ export default function PlacesFormPage() {
                 }
               />
             </div>
-          </div>
+          </div> */}
 
           <h2 className="p-2 m-2 underline font-bold">Gói Dài Hạn</h2>
           <p className="text-orange-800">(Gói không định sẵn ngày kết thúc)</p>

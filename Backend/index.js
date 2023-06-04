@@ -69,7 +69,8 @@ app.post("/register", async (req, res) => {
         avatar,
         img,
         acceptBooker: false,
-        password: bcrypt.hashSync(password, bcryptSalt),
+        // password: bcrypt.hashSync(password, bcryptSalt),
+        password: password
       });
       res.json(userDoc);
     } else {
@@ -79,7 +80,8 @@ app.post("/register", async (req, res) => {
         avatar,
         isBooker: false,
         acceptBooker: false,
-        password: bcrypt.hashSync(password, bcryptSalt),
+        // password: bcrypt.hashSync(password, bcryptSalt),
+        password: password,
         balanceCoin: 0,
       });
       res.json(userDoc);
@@ -93,7 +95,8 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const userDoc = await User.findOne({ email });
   if (userDoc) {
-    const passOk = bcrypt.compareSync(password, userDoc.password);
+    // const passOk = bcrypt.compareSync(password, userDoc.password);
+    const passOk = password == userDoc.password
     if (passOk) {
       jwt.sign(
         {
@@ -192,6 +195,7 @@ app.post("/places", (req, res) => {
     description,
     price,
     perks,
+    perks2,
     extraInfo,
     package,
     personBooker,
@@ -221,6 +225,7 @@ app.post("/places", (req, res) => {
       photos: addedPhotos,
       description,
       perks,
+      perks2,
       extraInfo,
       packageLong,
       packageShort,
@@ -542,10 +547,10 @@ app.post("/bookings", async (req, res) => {
   //     memberStatus: true
   //   });
   
-  // await Place.findOneAndUpdate(
-  //   { _id: mongoose.Types.ObjectId(place) },
-  //   { memberStatus: true }
-  // );
+  await Place.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(place) },
+    { memberStatus: true }
+  );
   await Booking.create({
     place,
     checkIn,
@@ -837,6 +842,19 @@ app.get("/filter-by-name/:name", async (req, res) => {
   }
 });
 
+app.get("/filter-by-loai/:name", async (req, res) => {
+  const loai = req.params.name;
+  const data = await Place.find({
+    perks2: { $regex: loai, $options: "i" },
+    status: true,
+    memberStatus: false,
+    isExpired: false,
+  });
+  if (data) {
+    res.json({ data: data });
+  }
+});
+
 app.get("/filter-by-price/:name/:type", async (req, res) => {
   const name = req.params.name;
   const type = req.params.type;
@@ -851,6 +869,9 @@ app.get("/filter-by-price/:name/:type", async (req, res) => {
     } else if (type === "medium") {
       pr1 = 5000000;
       pr2 = 10000000;
+    }else if (type === "small1") {
+      pr1 = 0;
+      pr2 = 2000000;
     } else {
       pr1 = 10000000;
       pr2 = 100000000;

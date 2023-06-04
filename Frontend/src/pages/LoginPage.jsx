@@ -33,8 +33,9 @@ export default function LoginPage() {
         setUser(data);
         refresh();
       }
-      alert("Đăng nhập thành công");
+      // alert("Đăng nhập thành công");
     } catch (e) {
+      console.log(e)
       alert("Đăng nhập không thành công");
     }
   }

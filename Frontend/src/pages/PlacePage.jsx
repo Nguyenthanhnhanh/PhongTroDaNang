@@ -54,13 +54,20 @@ export default function PlacePage() {
     );
   }
 
+  // setInterval(() => {
+  //   console.log(user, "vuser")
+  // }, 2000)
+
   const bookingRoom = async () => {
     const fromDate = new Date(place?.packageShort.shortPackageDateStart);
     const endDate = new Date(place?.packageShort.shortPackageDateEnd);
     const checkInn = new Date(checkIn);
     const checkOutt = new Date(checkOut);
 
-    if (!idUser) {
+    // if (!idUser) {
+    //   navigate("/login", { replace: true });
+    // }
+        if (!user?.email) {
       navigate("/login", { replace: true });
     }
 
@@ -70,6 +77,25 @@ export default function PlacePage() {
         return;
       }
     }
+
+    if (Number(user.balanceCoin) < ((numberOfNights * price)/2)) {
+      toast.error("Không đủ tiền cọc");
+      return
+    } 
+
+    try{
+    const res = await axios.put(`/update-coin/${user._id}`, {
+      balanceCoin: Number(user.balanceCoin) - ((numberOfNights * price)/2) ?? 0,
+    });
+    if (res.status === 200) {
+      toast.success("Số tiền của bạn là:"+ ( Number(user.balanceCoin) - ((numberOfNights * price)/2)))
+      // addInvoice(((numberOfNights * price)/2), Number(user.balanceCoin));
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000)
+    }
+  } catch (error) {}
+
 
     const response = await axios.post("/bookings", {
       checkIn,
@@ -113,6 +139,20 @@ export default function PlacePage() {
       console.log(error);
     }
   };
+
+  // const addInvoice = (cPrice, balanceCoin) => {
+  //   const bodyy = {
+  //     name: user.name,
+  //     idUser: user._id,
+  //     coin: Number(balanceCoin) -  Number(cPrice),
+  //     note: "trừ tiền",
+  //     status: "Thành công",
+  //     type: "User nạp tiền ví Paypal",
+  //   };
+  //   try {
+  //     const res = axios.post("/invoice", { ...bodyy });
+  //   } catch (error) {}
+  // };
 
   return (
     <div className="py-4 px-8 flex flex-col min-h-screen max-w-6xl mx-auto">
@@ -438,7 +478,7 @@ export default function PlacePage() {
           </div>
         </div>
         <div className="col-span-2">
-          <div className="border p-6 rounded-2xl gap-2 cursor-pointer bg-white shadow rounded-lg">
+          {/* <div className="border p-6 rounded-2xl gap-2 cursor-pointer bg-white shadow rounded-lg">
             <Checkbox
               checked={optionChecking === "shortTerm" ? true : false}
               className="mb-2 text-base font-bold flex justify-center"
@@ -463,7 +503,7 @@ export default function PlacePage() {
                 {formatCurrentVND(place?.packageShort.price)}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="col-span-3">
           {optionChecking && (
@@ -507,7 +547,7 @@ export default function PlacePage() {
               <button className="primary" onClick={bookingRoom}>
                 Đặt Phòng
                 {numberOfNights > 0 && (
-                  <span> {formatCurrentVND(numberOfNights * price)}</span>
+                  <span> {formatCurrentVND(numberOfNights * price)} và cọc 50%</span>
                 )}
               </button>
             </div>

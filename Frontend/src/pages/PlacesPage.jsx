@@ -136,7 +136,7 @@ export default function PlacesPage() {
               <div onClick={()=> handleRedirect(place._id)} className="cursor-pointer px-5 py-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">{(place.packageLong.price/1000000).toFixed(0)}</span><span className="text-xl font-bold text-gray-900 dark:text-white"> tr/tháng</span>
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white">{(place.packageLong.price/1000000)}</span><span className="text-xl font-bold text-gray-900 dark:text-white"> tr/tháng</span>
                   </div>
                   <div>
                     <span className="mr-5 text-l font-semibold text-gray-900 dark:text-white"><i className="fa-solid fa-bed mr-2"></i>{place.numberBed}</span>

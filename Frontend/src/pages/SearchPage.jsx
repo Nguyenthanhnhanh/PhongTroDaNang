@@ -8,6 +8,7 @@ export default function SearchPage() {
   const [places, setPlaces] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [loai, setLoai] = useState("");
   const [type, setType] = useState("packageLong"); // packageShort
 
   const { text } = useParams();
@@ -33,6 +34,14 @@ export default function SearchPage() {
       });
     }
   }, [price]);
+
+  useEffect(() => {
+    if (loai) {
+      axios.get(`/filter-by-loai/${loai}`).then((response) => {
+        setPlaces(response?.data?.data);
+      });
+    }
+  }, [loai]);
 
   // useEffect(() => {
   //   if (type) {
@@ -120,16 +129,30 @@ export default function SearchPage() {
             onChange={(e) => setPrice(e.target.value)}
             className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option value=""></option>
+            <option value="">Lọc theo giá</option>
+            <option value="small1">0-2tr</option>
             <option value="small">2-5tr</option>
             <option value="medium">5-10tr</option>
             <option value="large">trên 10tr</option>
           </select>
+          
+        </div>
+        <div>
+          <select
+            onChange={(e) => setLoai(e.target.value)}
+            className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value="">Loại nhà</option>
+            <option value="nhanguyencan">Nhà Nguyên căn</option>
+            <option value="phongtro">Phòng trọ</option>
+            <option value="canho">Căn hộ</option>
+          </select>
+          
         </div>
         <div>
           <div className="" id="filter-section-mobile-1">
             <div className="space-y-2">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input
                   id="filter-mobile-category-0"
                   type="radio"
@@ -143,7 +166,7 @@ export default function SearchPage() {
                 >
                   Ngắn hạn
                 </label>
-              </div>
+              </div> */}
               <div className="flex items-center">
                 <input
                   id="filter-mobile-category-1"
