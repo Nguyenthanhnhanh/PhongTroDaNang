@@ -99,11 +99,21 @@ export default function ContractOK() {
 
   return (
     <div className="py-4 px-8 min-h-screen max-w-6xl mx-auto">
-      <h1 className="text-3xl font-semibold tracking-tight leading-none">{booking.place.title}</h1>
+      <h1 className="text-3xl font-semibold tracking-tight leading-none">
+        {booking.place.title}
+      </h1>
       <AddressLink>{booking.place.address}</AddressLink>
-      <span className="font-semibold mr-5 ml-1"><i className="fa-solid fa-dollar-sign mr-2"></i>{booking.place?.packageLong.price/1000000} tr/tháng</span>
-      <span className="font-semibold mr-5"><i className="fa-solid fa-bed mr-2"></i>{booking.place?.numberBed}</span>
-      <span className="font-semibold mr-5"><i className="fa-solid fa-table-cells mr-2"></i>{booking.place?.areas}m<sup>2</sup></span>
+      <span className="font-semibold mr-5 ml-1">
+        {booking.place?.packageLong.price} /tháng
+      </span>
+      <span className="font-semibold mr-5">
+        <i className="fa-solid fa-bed mr-2"></i>
+        {booking.place?.numberBed}
+      </span>
+      <span className="font-semibold mr-5">
+        <i className="fa-solid fa-table-cells mr-2"></i>
+        {booking.place?.areas}m<sup>2</sup>
+      </span>
       <h2 className="my-4 font-semibold text-2xl">Thông tin hợp đồng</h2>
       <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
         <div>
@@ -114,28 +124,35 @@ export default function ContractOK() {
               <h3 className="font-bold mb-2">Gói Dài Hạn</h3>
               <p>
                 Bắt đầu từ ngày{" "}
-                <span className="bg-blue-100 text-blue-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{booking?.place?.packageLong?.longPackageDate}</span>
+                <span className="bg-blue-100 text-blue-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                  {booking?.place?.packageLong?.longPackageDate}
+                </span>
               </p>
             </>
           )}
         </div>
         <div>
           <h3 className="font-bold mb-2">Tình trạng</h3>
-          <span className="bg-green-100 text-green-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-green-400">{showStatus(booking.status)}</span>
+          <span className="bg-green-100 text-green-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-green-400">
+            {showStatus(booking.status)}
+          </span>
         </div>
         <div>
           <h3 className="font-bold mb-2">Tổng tiền</h3>
-          <span className="bg-pink-100 text-pink-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-pink-400">{booking.price.toLocaleString("it-IT", {
-            style: "currency",
-            currency: "VND",
-          })}</span>
-          
+          <span className="bg-pink-100 text-pink-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-pink-400">
+            {booking.price.toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span>
         </div>
         <div>
           <h3 className="font-bold mb-2">Liên hệ</h3>
           {booking.status === "done" && (
             <Link to={`/contact/${booking?.place?.owner}`}>
-              <span className="bg-purple-100 text-purple-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-purple-400">Người cho thuê</span>
+              <span className="bg-purple-100 text-purple-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-purple-400">
+                Người cho thuê
+              </span>
             </Link>
           )}
         </div>
@@ -146,22 +163,36 @@ export default function ContractOK() {
           <h1 className="my-4 font-semibold text-2xl">Dịch vụ sẵn có</h1>
           <div className="grid my-4 gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {booking?.place?.perks?.includes("wifi") && (
-              <div><i className="fa-solid fa-wifi mr-2"></i>Wifi</div>
+              <div>
+                <i className="fa-solid fa-wifi mr-2"></i>Wifi
+              </div>
             )}
             {booking?.place?.perks?.includes("parking") && (
-              <div><i className="fa-solid fa-square-parking fa-lg mr-2"></i>Bãi giữ xe</div>
+              <div>
+                <i className="fa-solid fa-square-parking fa-lg mr-2"></i>Bãi giữ
+                xe
+              </div>
             )}
             {booking?.place?.perks?.includes("tv") && (
-              <div><i className="fa-solid fa-tv mr-2"></i>Tivi</div>
+              <div>
+                <i className="fa-solid fa-tv mr-2"></i>Tivi
+              </div>
             )}
             {booking?.place?.perks?.includes("radio") && (
-              <div><i className="fa-solid fa-radio mr-2"></i>Radio</div>
+              <div>
+                <i className="fa-solid fa-radio mr-2"></i>Radio
+              </div>
             )}
             {booking?.place?.perks?.includes("pets") && (
-              <div><i className="fa-solid fa-dog fa-lg mr-2"></i>Thú cưng</div>
+              <div>
+                <i className="fa-solid fa-dog fa-lg mr-2"></i>Thú cưng
+              </div>
             )}
             {booking?.place?.perks?.includes("entrance") && (
-              <div><i className="fa-solid fa-signs-post fa-lg mr-2"></i>Lối đi riêng</div>
+              <div>
+                <i className="fa-solid fa-signs-post fa-lg mr-2"></i>Lối đi
+                riêng
+              </div>
             )}
           </div>
           <h1 className="my-4 font-semibold text-2xl">
@@ -194,8 +225,10 @@ export default function ContractOK() {
               <tbody className="divide-y divide-gray-100 border-t border-gray-100 text-slate-700 font-normal text-base">
                 {listService.length > 0 &&
                   listService.map((item, index) => (
-                    <tr className="hover:bg-slate-50 cursor-pointer"
-                    key={item.id}>
+                    <tr
+                      className="hover:bg-slate-50 cursor-pointer"
+                      key={item.id}
+                    >
                       <td className="whitespace-nowrap px-6 py-4 font-normal text-base">
                         {index + 1}
                       </td>
@@ -207,17 +240,16 @@ export default function ContractOK() {
                       </td>
                     </tr>
                   ))}
-                
               </tbody>
             </table>
           </div>
-          
+
           <div className="bg-white -mx-8 px-8 py-8 border-t">
             <div>
               <h1 className="mb-4 font-semibold text-2xl mb-4">Liên hệ</h1>
             </div>
             <div>
-            <div className="grid grid-cols-12 gap-4">
+              <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-11">
                   <input
                     type="text"
@@ -237,16 +269,12 @@ export default function ContractOK() {
                     >
                       Gửi
                     </button>
-                    )
-                    :(
-                      <button
-                        className="mt-1 py-2 px-4 width-200 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Gửi
-                      </button>
-                    )
-                  }
-                </div>                
+                  ) : (
+                    <button className="mt-1 py-2 px-4 width-200 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Gửi
+                    </button>
+                  )}
+                </div>
               </div>
               {booking?.reviews.length > 0 &&
                 booking?.reviews?.map((item) => (
@@ -264,7 +292,10 @@ export default function ContractOK() {
                           <div className="mt-6 flex justify-start items-center flex-row space-x-2.5">
                             <div>
                               <img
-                                src={'http://localhost:4000/'+item?.idUser?.avatar}
+                                src={
+                                  "http://localhost:4000/" +
+                                  item?.idUser?.avatar
+                                }
                                 className={`h-10 w-10 object-cover rounded-full`}
                                 alt="girl-avatar"
                               />

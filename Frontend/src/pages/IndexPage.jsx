@@ -35,7 +35,7 @@ export default function IndexPage() {
       });
 
       axios.get(`/place-not-vip/${user?._id ?? "null"}`).then((response) => {
-        console.log(response.data, "check")
+        console.log(response.data, "check");
         setPlacesNotVip(response.data);
       });
     } else {
@@ -44,9 +44,8 @@ export default function IndexPage() {
       });
 
       axios.get(`/place-not-vip/${"null"}`).then((response) => {
-        console.log(response.data, "check2")
-        
-        
+        console.log(response.data, "check2");
+
         setPlacesNotVip(response.data);
       });
     }
@@ -161,20 +160,20 @@ export default function IndexPage() {
                             >
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/sơn%20trà")}
+                                onClick={() => navigate("/search/thanh%20khê")}
                               >
                                 Thanh Khê
                               </button>
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/liên%chiểu")}
+                                onClick={() => navigate("/search/liên%20chiểu")}
                               >
                                 Liên Chiểu
                               </button>
 
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/sơn%20trà")}
+                                onClick={() => navigate("/search/hải%20châu")}
                               >
                                 Hải Châu
                               </button>
@@ -187,19 +186,21 @@ export default function IndexPage() {
 
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/sơn%20trà")}
+                                onClick={() =>
+                                  navigate("/search/ngũ%20hành%20sơn")
+                                }
                               >
                                 Ngũ Hành Sơn
                               </button>
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/sơn%20trà")}
+                                onClick={() => navigate("/search/cẩm%20lệ")}
                               >
                                 Cẩm Lệ
                               </button>
                               <button
                                 className="text-white right-2.5 bottom-2.5 bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2"
-                                onClick={() => navigate("/search/sơn%20trà")}
+                                onClick={() => navigate("/search/hoà%20vang")}
                               >
                                 Hòa Vang
                               </button>

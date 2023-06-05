@@ -130,12 +130,11 @@ export default function SearchPage() {
             className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option value="">Lọc theo giá</option>
-            <option value="small1">0-2tr</option>
+            <option value="small1">từ 0-2tr</option>
             <option value="small">2-5tr</option>
             <option value="medium">5-10tr</option>
             <option value="large">trên 10tr</option>
           </select>
-          
         </div>
         <div>
           <select
@@ -147,7 +146,6 @@ export default function SearchPage() {
             <option value="phongtro">Phòng trọ</option>
             <option value="canho">Căn hộ</option>
           </select>
-          
         </div>
         <div>
           <div className="" id="filter-section-mobile-1">

@@ -2,26 +2,26 @@
     {
         "id": 1,
         "name": "Dịch vụ giặt đồ",
-        "price" : 200
+        "price" : 200000
     },
     {
         "id": 2,
         "name": "Dịch vụ dắt thú cưng đi dạo",
-        "price" : 500
+        "price" : 500000
     },
     {
         "id": 3,
         "name": "Dịch vụ nấu ăn bữa sáng",
-        "price" : 400
+        "price" : 400000
     },
     {
         "id": 4,
         "name": "Dịch vụ giặt chăn nệm",
-        "price" : 300
+        "price" : 300000
     },
     {
         "id": 5,
         "name": "Dịch vụ khu giải trí",
-        "price" : 100
+        "price" : 100000
     }
 ]

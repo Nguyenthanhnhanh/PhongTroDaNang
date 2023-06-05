@@ -67,7 +67,7 @@ export default function PlacePage() {
     // if (!idUser) {
     //   navigate("/login", { replace: true });
     // }
-        if (!user?.email) {
+    if (!user?.email) {
       navigate("/login", { replace: true });
     }
 
@@ -78,24 +78,27 @@ export default function PlacePage() {
       }
     }
 
-    if (Number(user.balanceCoin) < ((numberOfNights * price)/2)) {
+    if (Number(user.balanceCoin) < (numberOfNights * price) / 2) {
       toast.error("Không đủ tiền cọc");
-      return
-    } 
-
-    try{
-    const res = await axios.put(`/update-coin/${user._id}`, {
-      balanceCoin: Number(user.balanceCoin) - ((numberOfNights * price)/2) ?? 0,
-    });
-    if (res.status === 200) {
-      toast.success("Số tiền của bạn là:"+ ( Number(user.balanceCoin) - ((numberOfNights * price)/2)))
-      // addInvoice(((numberOfNights * price)/2), Number(user.balanceCoin));
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 2000)
+      return;
     }
-  } catch (error) {}
 
+    try {
+      const res = await axios.put(`/update-coin/${user._id}`, {
+        balanceCoin:
+          Number(user.balanceCoin) - (numberOfNights * price) / 2 ?? 0,
+      });
+      if (res.status === 200) {
+        toast.success(
+          "Số tiền của bạn là:" +
+            (Number(user.balanceCoin) - (numberOfNights * price) / 2)
+        );
+        // addInvoice(((numberOfNights * price)/2), Number(user.balanceCoin));
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000)
+      }
+    } catch (error) {}
 
     const response = await axios.post("/bookings", {
       checkIn,
@@ -163,8 +166,7 @@ export default function PlacePage() {
           </h1>
           <AddressLink>{place.address}</AddressLink>
           <span className="font-semibold mr-5 ml-1">
-            <i className="fa-solid fa-dollar-sign mr-2"></i>
-            {place?.packageLong.price / 1000000} tr/tháng
+            {place?.packageLong.price} /tháng
           </span>
           <span className="font-semibold mr-5">
             <i className="fa-solid fa-bed mr-2"></i>
@@ -272,7 +274,8 @@ export default function PlacePage() {
             )}
             {place?.perks?.includes("parking") && (
               <div>
-                <i className="fa-solid fa-square-parking fa-lg mr-2"></i>Bãi giữ xe
+                <i className="fa-solid fa-square-parking fa-lg mr-2"></i>Bãi giữ
+                xe
               </div>
             )}
             {place?.perks?.includes("tv") && (
@@ -292,7 +295,8 @@ export default function PlacePage() {
             )}
             {place?.perks?.includes("entrance") && (
               <div>
-                <i className="fa-solid fa-signs-post fa-lg mr-2"></i>Lối đi riêng
+                <i className="fa-solid fa-signs-post fa-lg mr-2"></i>Lối đi
+                riêng
               </div>
             )}
           </div>
@@ -359,7 +363,8 @@ export default function PlacePage() {
             </div>
             <div>
               <div className="border-b border-gray-400 border-dashed pb-2 font-bold">
-                <i className="fa-solid fa-face-laugh-squint fa-xl mr-3"></i>Giải trí
+                <i className="fa-solid fa-face-laugh-squint fa-xl mr-3"></i>Giải
+                trí
               </div>
               <div className="grid grid-cols-2 gap-2 py-2">
                 <div>Địa điểm</div>
@@ -420,7 +425,8 @@ export default function PlacePage() {
                 href="#"
                 className="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
               >
-                <i className="fa-brands fa-facebook-messenger mr-2"></i>Messenger
+                <i className="fa-brands fa-facebook-messenger mr-2"></i>
+                Messenger
               </a>
               <a
                 href="#"
@@ -547,7 +553,10 @@ export default function PlacePage() {
               <button className="primary" onClick={bookingRoom}>
                 Đặt Phòng
                 {numberOfNights > 0 && (
-                  <span> {formatCurrentVND(numberOfNights * price)} và cọc 50%</span>
+                  <span>
+                    {" "}
+                    {formatCurrentVND(numberOfNights * price)} và cọc 50%
+                  </span>
                 )}
               </button>
             </div>
