@@ -158,6 +158,13 @@ app.get("/detail-profile/:id", async (req, res) => {
   res.json({ name });
 });
 
+app.get("/findBalanceId/:id", async (req, res) => {
+  const { balanceCoin } = await User.findOne(    
+    { _id: mongoose.Types.ObjectId(req.params.id) },
+  );
+  res.json({ balanceCoin });
+});
+
 app.post("/logout", (req, res) => {
   res.cookie("token", "").json(true);
 });
@@ -601,6 +608,23 @@ app.get("/bookings/receipt", async (req, res) => {
   );
 });
 
+app.post("/bookings/cancel", async (req, res) => {
+  const {
+    place:placeId,
+    booking:bookingId
+  } = req.body;
+  await Place.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(placeId) },
+    { memberStatus: false },
+  );
+  await Booking.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(bookingId) },
+    { status: "cancel" },
+  );
+  return res.status(200).send({message:"OK"})
+});
+
+
 app.get("/get-all-rooms", async (req, res) => {
   const userData = await getUserDataFromReq(req);
   res.json(await await Place.find().populate("owner"));
@@ -708,6 +732,13 @@ app.get("/get-list-detail-booker/:id", async (req, res) => {
     res.json({ data: booking });
   }
 });
+
+app.put("/deletePlaceById/:id",async (req,res)=>{
+  await Place.findOneAndDelete(
+    { _id: mongoose.Types.ObjectId(req.params.id) }
+  );
+  res.status(200).send({message:"success!"})
+})
 
 app.put("/update-status/:id", async (req, res) => {
   const a = await Booking.findOneAndUpdate(
