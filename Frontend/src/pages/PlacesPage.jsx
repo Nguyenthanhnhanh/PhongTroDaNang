@@ -1,10 +1,10 @@
-import {Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AccountNav from "../AccountNav";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import PlaceImg from "../PlaceImg";
-import { Button, Popover } from 'antd';
-import { useContext,  } from "react";
+import { Button, Popover } from "antd";
+import { useContext } from "react";
 import { UserContext } from "../UserContext";
 import { toast } from "react-toastify";
 import { PayPalButton } from "react-paypal-button-v2";
@@ -16,159 +16,216 @@ export default function PlacesPage() {
   const [sdk, setSdk] = useState(false);
   const [loader, setLoader] = useState(false);
   const [paySuccess, setPaySuccess] = useState(false);
-  const [idNe, setId] = useState('');
+  const [idNe, setId] = useState("");
   const navigate = useNavigate();
-
+  console.log(places);
   useEffect(() => {
     fetch();
   }, []);
 
   const fetch = () => {
-     axios.get('/user-places').then(({data}) => {
+    axios.get("/user-places").then(({ data }) => {
       setPlaces(data);
     });
-  }
+  };
 
   const successPaymentHandler = async (paymentResult) => {
-      const res = await axios.put(`/add-to-time-expried/${idNe}`, {
-        isExpired: false,
-        dateCurrent: Date.now(),
-        idUser: user._id,
-        balance: user.balanceCoin
-      })
-      if (res.status === 200) {
-        toast.success('Gia hạn thành công');
-        fetch();
-        setLoader(false);
-      }
+    const res = await axios.put(`/add-to-time-expried/${idNe}`, {
+      isExpired: false,
+      dateCurrent: Date.now(),
+      idUser: user._id,
+      balance: user.balanceCoin,
+    });
+    if (res.status === 200) {
+      toast.success("Gia hạn thành công");
+      fetch();
+      setLoader(false);
+    }
   };
 
   const confirmCoin = async (coin, id) => {
-
     if (user && user.balanceCoin < 100) {
-      toast.error('Số Dư Không Đủ Vui Lòng Nạp Thêm Tiền');
+      toast.error("Số Dư Không Đủ Vui Lòng Nạp Thêm Tiền");
       return;
     } else {
       const res = await axios.put(`/add-to-time-expried/${id}`, {
         isExpired: false,
         dateCurrent: Date.now(),
         idUser: user._id,
-        balance: user.balanceCoin
-      })
+        balance: user.balanceCoin,
+      });
       if (res.status === 200) {
-        toast.success('Gia hạn thành công');
+        toast.success("Gia hạn thành công");
         fetch();
         setLoader(false);
       }
     }
-  }
+  };
 
   const confirmVip = async (coin, id) => {
-
     if (user && user.balanceCoin < 300) {
-      toast.error('Số Dư Không Đủ Vui Lòng Nạp Thêm Tiền');
+      toast.error("Số Dư Không Đủ Vui Lòng Nạp Thêm Tiền");
       return;
-    }
-    else {
+    } else {
       const res = await axios.put(`/add-to-time-expried-vip/${id}`, {
         isVip: false,
         dateCurrent: Date.now(),
         idUser: user._id,
-        balance: user.balanceCoin
-      })
+        balance: user.balanceCoin,
+      });
       if (res.status === 200) {
-        toast.success('Gia hạn thành công');
+        toast.success("Gia hạn thành công");
         fetch();
         setLoader(false);
       }
-}
-  }
+    }
+  };
 
   const content = (
     <div>
-      <p>Bài viết của bạn hết hạn xuất hiện vui lòng nộp thêm tiền để hiển thị lên</p>
-      <p>Giá để hiển thị gói thường: <b>100 </b>đ/tuần</p>
+      <p>
+        Bài viết của bạn hết hạn xuất hiện vui lòng nộp thêm tiền để hiển thị
+        lên
+      </p>
+      <p>
+        Giá để hiển thị gói thường: <b> 10000 </b>đ/tuần
+      </p>
     </div>
   );
 
   const contentVIP = (
     <div>
-      <p>Bài viết của bạn hết hạn xuất hiện vui lòng nộp thêm tiền để hiển thị lên</p>
-      <p>Giá để hiển thị gói nâng cao: <b>300 </b>đ/tuần</p>
+      <p>
+        Bài viết của bạn hết hạn xuất hiện vui lòng nộp thêm tiền để hiển thị
+        lên
+      </p>
+      <p>
+        Giá để hiển thị gói nâng cao: <b> 30000 </b>đ/tuần
+      </p>
     </div>
   );
 
   const handleRedirect = (id) => {
-    navigate('/account/places/'+id, {place:true})
-  }
+    navigate("/account/places/" + id, { place: true });
+  };
 
   const checkTime = (place) => {
     return (
       <>
-      {
-        (!place.isExpired) ? (
+        {!place.isExpired ? (
           <></>
-        ): (
+        ) : (
           <div className="mb-3">
-            <span className="mr-3 text-l font-semibold tracking-tight text-gray-900 dark:text-white">Gia hạn</span>
+            <span className="mr-3 text-l font-semibold tracking-tight text-gray-900 dark:text-white">
+              Gia hạn
+            </span>
             <Popover content={content} title="Thông báo" trigger="hover">
-              <Button onClick={() => confirmCoin(place.dateCurrent, place._id)} className="mr-3 text-violet-600 border border-violet-600">Tin thường</Button>
+              <Button
+                onClick={() => confirmCoin(place.dateCurrent, place._id)}
+                className="mr-3 text-violet-600 border border-violet-600"
+              >
+                Tin thường
+              </Button>
             </Popover>
             <Popover content={contentVIP} title="Thông báo" trigger="hover">
-              <Button onClick={() => confirmVip(place.dateCurrent, place._id)} className="text-pink-600 border border-pink-600">Tin nâng cao</Button>
+              <Button
+                onClick={() => confirmVip(place.dateCurrent, place._id)}
+                className="text-pink-600 border border-pink-600"
+              >
+                Tin nâng cao
+              </Button>
             </Popover>
-          </div>          
-       )
-     }
+          </div>
+        )}
       </>
-    )
-  }
-
+    );
+  };
+  const handleCancel = async (id) => {
+    try {
+      await axios.put(`/deletePlaceById/${id}`).then((res) => {
+        window.location.reload();
+      });
+    } catch (error) {}
+  };
   return (
     <div>
       <AccountNav />
       <div className="px-8 flex flex-col min-h-screen max-w-6xl mx-auto">
-        
         <div className="mt-4 space-y-8 space-x-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0 md:space-x-0">
-          {places.length > 0 && places.map(place => (
-            <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl">
-              <img onClick={()=> handleRedirect(place._id)} className="cursor-pointer rounded-t-lg w-full h-64 bg-cover bg-center" src={'http://localhost:4000/'+place.photos?.[0]} alt="" />
-              <div onClick={()=> handleRedirect(place._id)} className="cursor-pointer px-5 py-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">{(place.packageLong.price/1000000)}</span><span className="text-xl font-bold text-gray-900 dark:text-white"> tr/tháng</span>
+          {places.length > 0 &&
+            places.map((place) => (
+              <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl">
+                <img
+                  onClick={() => handleRedirect(place._id)}
+                  className="cursor-pointer rounded-t-lg w-full h-64 bg-cover bg-center"
+                  src={"http://localhost:4000/" + place.photos?.[0]}
+                  alt=""
+                />
+                <div
+                  onClick={() => handleRedirect(place._id)}
+                  className="cursor-pointer px-5 py-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {place.packageLong.price / 1000000}
+                      </span>
+                      <span className="text-xl font-bold text-gray-900 dark:text-white">
+                        {" "}
+                        tr/tháng
+                      </span>
+                    </div>
+                    <div>
+                      <span className="mr-5 text-l font-semibold text-gray-900 dark:text-white">
+                        <i className="fa-solid fa-bed mr-2"></i>
+                        {place.numberBed}
+                      </span>
+                      <span className="text-l font-semibold text-gray-900 dark:text-white">
+                        <i className="fa-solid fa-table-cells mr-2"></i>
+                        {place.areas}m<sup>2</sup>
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="mr-5 text-l font-semibold text-gray-900 dark:text-white"><i className="fa-solid fa-bed mr-2"></i>{place.numberBed}</span>
-                    <span className="text-l font-semibold text-gray-900 dark:text-white"><i className="fa-solid fa-table-cells mr-2"></i>{place.areas}m<sup>2</sup></span>
+                  <h3 className="truncate text-l font-semibold tracking-tight text-gray-900 dark:text-white">
+                    {place.title}
+                  </h3>
+                  <p className="truncate font-normal text-gray-700 dark:text-gray-400">
+                    {place.address}
+                  </p>
+                </div>
+                <div className="px-5">
+                  <div className="flex items-center justify-between">
+                    {checkTime(place)}
                   </div>
                 </div>
-                <h3 className="truncate text-l font-semibold tracking-tight text-gray-900 dark:text-white">{place.title}</h3>
-                <p className="truncate font-normal text-gray-700 dark:text-gray-400">{place.address}</p>
+                <span
+                  onClick={() => handleCancel(place._id)}
+                  className="cursor-pointer relative z-20 bg-red-100 text-green-800 text-base text-center font-medium px-2.5 py-1 rounded-lg dark:bg-gray-700 dark:text-blue-400 border border-green-400"
+                >
+                  Xóa
+                </span>
               </div>
-              <div className="px-5">
-                <div className="flex items-center justify-between">
-                  {
-                    checkTime(place)
-                  }
-                </div>                
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
-        {places.length == 0 &&
+        {places.length == 0 && (
           <div className="mt-16 mx-auto">
-            <div className="mb-8 text-center text-gray-500 text-xl font-semibold tracking-tight leading-none md:text-2xl lg:text-3xl"><i className="fa-solid fa-house fa-2xl"></i></div>
-            <div className="mb-8 text-center text-gray-500 text-xl font-semibold tracking-tight leading-none md:text-2xl lg:text-3xl">Bạn chưa có nhà thuê nào.</div>
+            <div className="mb-8 text-center text-gray-500 text-xl font-semibold tracking-tight leading-none md:text-2xl lg:text-3xl">
+              <i className="fa-solid fa-house fa-2xl"></i>
+            </div>
+            <div className="mb-8 text-center text-gray-500 text-xl font-semibold tracking-tight leading-none md:text-2xl lg:text-3xl">
+              Bạn chưa có nhà thuê nào.
+            </div>
             <div className="text-center">
-              <Link to="/account/places/new" className="px-12 bg-indigo-600 rounded-lg hover:bg-indigo-500 text-white font-semibold py-3">
+              <Link
+                to="/account/places/new"
+                className="px-12 bg-indigo-600 rounded-lg hover:bg-indigo-500 text-white font-semibold py-3"
+              >
                 Đăng tin
               </Link>
             </div>
           </div>
-        }
+        )}
       </div>
-        
     </div>
   );
 }

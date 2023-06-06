@@ -70,7 +70,7 @@ app.post("/register", async (req, res) => {
         img,
         acceptBooker: false,
         // password: bcrypt.hashSync(password, bcryptSalt),
-        password: password
+        password: password,
       });
       res.json(userDoc);
     } else {
@@ -96,7 +96,7 @@ app.post("/login", async (req, res) => {
   const userDoc = await User.findOne({ email });
   if (userDoc) {
     // const passOk = bcrypt.compareSync(password, userDoc.password);
-    const passOk = password == userDoc.password
+    const passOk = password == userDoc.password;
     if (passOk) {
       jwt.sign(
         {
@@ -159,9 +159,9 @@ app.get("/detail-profile/:id", async (req, res) => {
 });
 
 app.get("/findBalanceId/:id", async (req, res) => {
-  const { balanceCoin } = await User.findOne(    
-    { _id: mongoose.Types.ObjectId(req.params.id) },
-  );
+  const { balanceCoin } = await User.findOne({
+    _id: mongoose.Types.ObjectId(req.params.id),
+  });
   res.json({ balanceCoin });
 });
 
@@ -553,7 +553,7 @@ app.post("/bookings", async (req, res) => {
   //   await placeDoc.set({
   //     memberStatus: true
   //   });
-  
+
   await Place.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(place) },
     { memberStatus: true }
@@ -609,21 +609,17 @@ app.get("/bookings/receipt", async (req, res) => {
 });
 
 app.post("/bookings/cancel", async (req, res) => {
-  const {
-    place:placeId,
-    booking:bookingId
-  } = req.body;
+  const { place: placeId, booking: bookingId } = req.body;
   await Place.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(placeId) },
-    { memberStatus: false },
+    { memberStatus: false }
   );
   await Booking.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(bookingId) },
-    { status: "cancel" },
+    { status: "cancel" }
   );
-  return res.status(200).send({message:"OK"})
+  return res.status(200).send({ message: "OK" });
 });
-
 
 app.get("/get-all-rooms", async (req, res) => {
   const userData = await getUserDataFromReq(req);
@@ -733,12 +729,10 @@ app.get("/get-list-detail-booker/:id", async (req, res) => {
   }
 });
 
-app.put("/deletePlaceById/:id",async (req,res)=>{
-  await Place.findOneAndDelete(
-    { _id: mongoose.Types.ObjectId(req.params.id) }
-  );
-  res.status(200).send({message:"success!"})
-})
+app.put("/deletePlaceById/:id", async (req, res) => {
+  await Place.findOneAndDelete({ _id: mongoose.Types.ObjectId(req.params.id) });
+  res.status(200).send({ message: "success!" });
+});
 
 app.put("/update-status/:id", async (req, res) => {
   const a = await Booking.findOneAndUpdate(
@@ -900,7 +894,7 @@ app.get("/filter-by-price/:name/:type", async (req, res) => {
     } else if (type === "medium") {
       pr1 = 5000000;
       pr2 = 10000000;
-    }else if (type === "small1") {
+    } else if (type === "small1") {
       pr1 = 0;
       pr2 = 2000000;
     } else {
