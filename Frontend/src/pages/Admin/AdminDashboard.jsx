@@ -1,8 +1,17 @@
 import Header from "./layouts/Header"
 import { Link } from "react-router-dom"
 import NavBar from "./layouts/NavBar"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const AdminDashboard = () => {
+  const [data,setData] =useState([])
+  useEffect(()=>{
+    axios.get("/findUserHaveMostPost").then((res)=>{
+      setData(res.data)
+        })
+  },[])
+  console.log('data',data);
     return (
       <>
       {/* Statistics Cards */}
@@ -137,6 +146,26 @@ const AdminDashboard = () => {
                             </div>
                           </td>
                         </tr>
+                        {data.length && data.map((item)=>{
+
+
+                       return <tr className="text-gray-700 dark:text-gray-100">
+                          <th className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">Chủ trọ có nhiều bài viết nhất là {item.nameUser}</th>
+                          <td className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{item.count}</td>
+                          <td className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <div className="flex items-center">
+                              <span className="mr-2">{item.percent.toFixed(2)}%</span>
+                              <div className="relative w-full">
+                                <div className="overflow-hidden h-2 text-xs flex rounded bg-blue-200">
+                                  <div style={{width: `${item.percent}%`}} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-700" />
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        }
+                        )
+                        }
                       </tbody>
                     </table>
                   </div>

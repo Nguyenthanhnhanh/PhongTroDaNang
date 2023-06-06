@@ -407,6 +407,40 @@ app.put("/change-status/:id", async (req, res) => {
   res.json("ok");
 });
 
+app.get("/findUserHaveMostPost", async (req, res) => {
+  const listAll = await Place.find();
+  const post = (await User.find()).map((e) => {
+    return { ...e, _id: e._id.toString() };
+  });
+  const usersPost = listAll.map((userPost) => {
+    return userPost?.owner.toString();
+  });
+  const counts = {};
+  let maxCount = 0;
+  let userHaveMostPost = null;
+
+  usersPost.forEach((item) => {
+    counts[item] = (counts[item] || 0) + 1;
+
+    if (counts[item] > maxCount) {
+      maxCount = counts[item];
+      userHaveMostPost = item;
+    }
+  });
+  const count = usersPost.reduce((acc, val) => {
+    return val === userHaveMostPost ? acc + 1 : acc;
+  }, 0);
+  const percent = (count / usersPost.length) * 100;
+  const nameUser = post.find((e) => e._id === userHaveMostPost);
+  return res.status(200).send([
+    {
+      nameUser: nameUser?._doc?.name,
+      count,
+      percent: percent,
+    },
+  ]);
+});
+
 app.get("/places-all/:id", async (req, res) => {
   const idd = req.params.id;
   if (idd == "null") {
